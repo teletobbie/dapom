@@ -12,7 +12,6 @@ with open("D:\RUG\dapom\week_2\A\groningenRestaurants_test.csv") as handler:
 expected_record_length = len(table[0])
 incorrect_records = []
 for record in table[1:]:
-
     if not (len(record) == expected_record_length):
         incorrect_records.append(record)
         print(record, "has", len(record), "data points")
