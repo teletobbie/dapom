@@ -1,5 +1,6 @@
 from gurobipy import Model, GRB, quicksum
 import csv
+import matplotlib.pyplot as plt
 
 def read_data(filepath):
     d = []
@@ -10,7 +11,7 @@ def read_data(filepath):
     for data in control_data[1:]:
         d.append(int(data[0]))
         c.append(int(data[1]))
-    #add 0 to the beginning of the list
+    #add 0 to the beginning of the each list as stated 
     d.insert(0, 0)
     c.insert(0, 0)
     return d, c
@@ -46,8 +47,31 @@ m.setObjective(quicksum(R*S[i]-H*I[i] for i in range(t)), GRB.MAXIMIZE)
 
 m.optimize()
 
-# for v in m.getVars():
-#     print("%s %g" % (v.varName, v.x))
+# print(m.getVars())
+
+x_results = []
+i_results = []
+s_results = []
+
+for v in m.getVars():
+    
+    if v.varName[:1] == "S":
+        s_results.append(v.x)
+    if v.varName[:1] == "I":
+        i_results.append(v.x)
+    if v.varName[:1] == "X":
+        x_results.append(v.x)
+    # print("%s %g" % (v.varName, v.x))
 
 print("Net profit: €%g" % m.objVal + ",-")
+
+plt.title("Inventory control")
+plt.plot(x_results, label="Production")
+plt.plot(i_results, label="Inventory")
+plt.plot(s_results, label="Sales")
+plt.xlabel("Periods (t)")
+plt.legend()
+plt.show()
+
+# print("Net profit: €%g" % m.objVal + ",-")
 
