@@ -54,7 +54,6 @@ i_results = []
 s_results = []
 
 for v in m.getVars():
-    
     if v.varName[:1] == "S":
         s_results.append(v.x)
     if v.varName[:1] == "I":
@@ -70,6 +69,7 @@ plt.plot(x_results, label="Production")
 plt.plot(i_results, label="Inventory")
 plt.plot(s_results, label="Sales")
 plt.xlabel("Periods (t)")
+plt.ylabel("Quantity")
 plt.legend()
 plt.show()
 
