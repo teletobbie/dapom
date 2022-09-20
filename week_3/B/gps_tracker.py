@@ -41,8 +41,8 @@ for index, point in enumerate(points): # source: https://stackoverflow.com/quest
 print("Total distance between all point", total_distance, "meters")
 
 # compute the average speed is distance traveled divided by time taken
-average_speed = total_distance / (duration.seconds / 3600) # // is used instead of / to get an integer, not an float, because you cannot have 1.2564454121 hours :).
-print("Average speed of the track is", average_speed, "meters per hour")
+average_speed = total_distance / duration.seconds
+print("Average speed of the track is", average_speed, "meters per second")
 
 # speed = distance / time
 speed_between_segments = []
@@ -52,9 +52,8 @@ for index, point in enumerate(points):
     next_point = points[index + 1]
     duration_between_points = next_point[2] - point[2]
     distance_between_points = distance.distance((point[0], point[1]), (next_point[0], next_point[1])).meters
-    speed_between_points = (distance_between_points / 1000) / (duration_between_points.seconds / 3600)
+    speed_between_points = (distance_between_points / duration_between_points.seconds) * 3.6 # https://www.inchcalculator.com/convert/meter-per-second-to-kilometer-per-hour/ 
     speed_between_segments.append([point, next_point, speed_between_points])
 
-# print(speed_between_segments)
-print("Minimal speed", min(speed_between_segments)[2])
-print("Maximum speed", max(speed_between_segments)[2])
+print("Minimal speed", min(speed_between_segments)[2], "km/h")
+print("Maximum speed", max(speed_between_segments)[2], "km/h")
