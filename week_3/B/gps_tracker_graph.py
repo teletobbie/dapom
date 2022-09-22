@@ -38,7 +38,6 @@ for index, point in enumerate(points):
 # https://stackoverflow.com/questions/66546901/how-to-add-a-tooltip-to-folium-colorline-for-further-data-information
 colormap = branca.colormap.linear.YlOrRd_09.scale(min(speed), max(speed)).to_step(len(speed))
 
-
 m = folium.Map(location=max_point,
               zoom_start=14)
 

@@ -40,7 +40,7 @@ for i in range(t):
 for i in range(t):
     if i == 0:
         continue
-    m.addConstr(I[i-1]+X[i]-S[i] == 0)
+    m.addConstr(I[i-1]+X[i]-S[i] == I[i])
 
 #sum(r*St - h*It)
 m.setObjective(quicksum(R*S[i]-H*I[i] for i in range(t)), GRB.MAXIMIZE)

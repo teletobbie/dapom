@@ -22,7 +22,7 @@ H = 1
 D, C = read_data("D:\RUG\dapom\week_2\B\inv_control_data_1.csv")
 t = len(D) #number of periods
 
-X = m.addVars(t, lb=0, ub=D, name="X") #quantity produced during period t
+X = m.addVars(t, lb=0, ub=C, name="X") #quantity produced during period t
 I = m.addVars(t, lb=0, ub=D, name="I") #inventory at end of period t
 S = m.addVars(t, lb=0, ub=D, name="S") #quantity sold during period t
 
@@ -39,7 +39,7 @@ for i in range(t):
 for i in range(t):
     if i == 0:
         continue
-    m.addConstr(I[i-1]+X[i]-S[i] == 0)
+    m.addConstr(I[i-1]+X[i]-S[i] == I[i])
 
 #sum(r*St - h*It)
 m.setObjective(quicksum(R*S[i]-H*I[i] for i in range(t)), GRB.MAXIMIZE)
