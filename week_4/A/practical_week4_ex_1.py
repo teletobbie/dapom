@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from encoding import get_encoding_from_file
 
-file = "D:\RUG\dapom\week_4\\restaurantRanking.csv"
+file = "D:\RUG\dapom\week_4\A\\restaurantRanking.csv"
 encoding = get_encoding_from_file(file)
 
 restaurants = pd.read_csv(file, encoding=encoding, sep=",", usecols=[0, 1])
@@ -20,5 +20,5 @@ for newCol in ["nrGoodReviews", "nrBadReviews", "nrUndecided"]:
     restaurants[newCol] = np.nan
     # restaurants[newCol] = np.random.randint(0,50, size=len(restaurants))
 
-restaurants.to_csv("week_4/restaurants_nan.csv", sep=";", index=False)
+restaurants.to_csv("week_4/A/restaurants_nan.csv", sep=";", index=False)
 
