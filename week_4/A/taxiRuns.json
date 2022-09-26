@@ -1,0 +1,2602 @@
+[
+    {
+        "total_amount": 6.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9225921631,
+            40.7545280457
+        ],
+        "pickup_datetime": "2015-01-01 00:34:42",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:34",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9136352539,
+            40.7655220032
+        ],
+        "passenger_count": 1,
+        "fare_amount": 5,
+        "extra": 0.5,
+        "trip_distance": 0.88,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 13.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9527511597,
+            40.6777114868
+        ],
+        "pickup_datetime": "2015-01-01 00:34:46",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:47:23",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9815292358,
+            40.6589775085
+        ],
+        "passenger_count": 1,
+        "fare_amount": 12,
+        "extra": 0.5,
+        "trip_distance": 3.08,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.8,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.8430099487,
+            40.7190551758
+        ],
+        "pickup_datetime": "2015-01-01 00:34:44",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:15",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8465805054,
+            40.711566925
+        ],
+        "passenger_count": 1,
+        "fare_amount": 5,
+        "extra": 0.5,
+        "trip_distance": 0.9,
+        "tip_amount": 1.8,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 6.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.860824585,
+            40.7577934265
+        ],
+        "pickup_datetime": "2015-01-01 00:34:48",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:08",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8540420532,
+            40.7498207092
+        ],
+        "passenger_count": 1,
+        "fare_amount": 5,
+        "extra": 0.5,
+        "trip_distance": 0.85,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 25.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9451828003,
+            40.7833213806
+        ],
+        "pickup_datetime": "2015-01-01 00:34:53",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:09:10",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9896240234,
+            40.7654495239
+        ],
+        "passenger_count": 1,
+        "fare_amount": 24.5,
+        "extra": 0.5,
+        "trip_distance": 4.91,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9668121338,
+            40.7146759033
+        ],
+        "pickup_datetime": "2015-01-01 00:34:55",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:40:58",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9494094849,
+            40.7184371948
+        ],
+        "passenger_count": 4,
+        "fare_amount": 6.5,
+        "extra": 0.5,
+        "trip_distance": 1.2,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 23.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9304885864,
+            40.8501319885
+        ],
+        "pickup_datetime": "2015-01-01 00:34:49",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:53:10",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9780578613,
+            40.7890586853
+        ],
+        "passenger_count": 1,
+        "fare_amount": 22,
+        "extra": 0.5,
+        "trip_distance": 6.6,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 15,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.863899231,
+            40.8954391479
+        ],
+        "pickup_datetime": "2015-01-01 00:35:03",
+        "trip_type": 2,
+        "dropoff_datetime": "2015-01-01 00:35:08",
+        "rate_code_id": 5,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8618774414,
+            40.8947792053
+        ],
+        "passenger_count": 1,
+        "fare_amount": 15,
+        "extra": 0,
+        "trip_distance": 0.13,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 9.2,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9171295166,
+            40.7648887634
+        ],
+        "pickup_datetime": "2015-01-01 00:35:13",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:04",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9279785156,
+            40.7614707947
+        ],
+        "passenger_count": 5,
+        "fare_amount": 6.5,
+        "extra": 0.5,
+        "trip_distance": 1.18,
+        "tip_amount": 1.4,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9214019775,
+            40.7666664124
+        ],
+        "pickup_datetime": "2015-01-01 00:35:09",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:42:39",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9064788818,
+            40.7787284851
+        ],
+        "passenger_count": 2,
+        "fare_amount": 7,
+        "extra": 0.5,
+        "trip_distance": 1.12,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 9.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.912689209,
+            40.7225074768
+        ],
+        "pickup_datetime": "2015-01-01 00:34:56",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:44:39",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9091949463,
+            40.7051391602
+        ],
+        "passenger_count": 1,
+        "fare_amount": 8,
+        "extra": 0.5,
+        "trip_distance": 1.59,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 17.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9181518555,
+            40.6988334656
+        ],
+        "pickup_datetime": "2015-01-01 00:34:59",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:56:16",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.955116272,
+            40.7349319458
+        ],
+        "passenger_count": 1,
+        "fare_amount": 16.5,
+        "extra": 0.5,
+        "trip_distance": 3.89,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 46.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9923400879,
+            40.6973609924
+        ],
+        "pickup_datetime": "2015-01-01 00:35:07",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:57:02",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8213653564,
+            40.7796211243
+        ],
+        "passenger_count": 1,
+        "fare_amount": 39,
+        "extra": 0.5,
+        "trip_distance": 14.01,
+        "tip_amount": 6,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 31.42,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9505691528,
+            40.7907714844
+        ],
+        "pickup_datetime": "2015-01-01 00:35:01",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:00:07",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9995269775,
+            40.7403144836
+        ],
+        "passenger_count": 1,
+        "fare_amount": 24,
+        "extra": 0.5,
+        "trip_distance": 6.74,
+        "tip_amount": 6.12,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.899055481,
+            40.7499885559
+        ],
+        "pickup_datetime": "2015-01-01 00:35:12",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:58",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9242858887,
+            40.7615470886
+        ],
+        "passenger_count": 2,
+        "fare_amount": 7.5,
+        "extra": 0.5,
+        "trip_distance": 1.6,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 5.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9815216064,
+            40.5766334534
+        ],
+        "pickup_datetime": "2015-01-01 00:35:14",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:37:25",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9765167236,
+            40.5775718689
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.58,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9108276367,
+            40.7687950134
+        ],
+        "pickup_datetime": "2015-01-01 00:35:29",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:35",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9142837524,
+            40.764755249
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.52,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9421081543,
+            40.7542228699
+        ],
+        "pickup_datetime": "2015-01-01 00:35:33",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:43",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9308853149,
+            40.7713165283
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6,
+        "extra": 0.5,
+        "trip_distance": 1.46,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 12.5,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9915924072,
+            40.6850776672
+        ],
+        "pickup_datetime": "2015-01-01 00:35:13",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:43:40",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9808349609,
+            40.6678771973
+        ],
+        "passenger_count": 6,
+        "fare_amount": 8.5,
+        "extra": 0.5,
+        "trip_distance": 2.02,
+        "tip_amount": 2.7,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 10.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.8907852173,
+            40.7464981079
+        ],
+        "pickup_datetime": "2015-01-01 00:35:23",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:43:46",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8897476196,
+            40.7640724182
+        ],
+        "passenger_count": 1,
+        "fare_amount": 9.5,
+        "extra": 0.5,
+        "trip_distance": 2.16,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.8791656494,
+            40.752658844
+        ],
+        "pickup_datetime": "2015-01-01 00:35:26",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:42:53",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8971557617,
+            40.7579612732
+        ],
+        "passenger_count": 1,
+        "fare_amount": 7.5,
+        "extra": 0.5,
+        "trip_distance": 1.32,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 9.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9357452393,
+            40.7534065247
+        ],
+        "pickup_datetime": "2015-01-01 00:35:40",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:44:40",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.924407959,
+            40.7615470886
+        ],
+        "passenger_count": 2,
+        "fare_amount": 7,
+        "extra": 0.5,
+        "trip_distance": 1.2,
+        "tip_amount": 1,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 18.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9024429321,
+            40.8605766296
+        ],
+        "pickup_datetime": "2015-01-01 00:35:35",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:52:25",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9445571899,
+            40.8091506958
+        ],
+        "passenger_count": 1,
+        "fare_amount": 17,
+        "extra": 0.5,
+        "trip_distance": 5,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 15.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9392547607,
+            40.8164024353
+        ],
+        "pickup_datetime": "2015-01-01 00:35:36",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:52:35",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9529876709,
+            40.7784080505
+        ],
+        "passenger_count": 1,
+        "fare_amount": 14.5,
+        "extra": 0.5,
+        "trip_distance": 3.86,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 30.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9481735229,
+            40.7448768616
+        ],
+        "pickup_datetime": "2015-01-01 00:35:41",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:55:58",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -74.0049819946,
+            40.6503219604
+        ],
+        "passenger_count": 1,
+        "fare_amount": 29.5,
+        "extra": 0.5,
+        "trip_distance": 10.13,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 20.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9518737793,
+            40.8046035767
+        ],
+        "pickup_datetime": "2015-01-01 00:35:43",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:56:12",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9956283569,
+            40.7643470764
+        ],
+        "passenger_count": 6,
+        "fare_amount": 19.5,
+        "extra": 0.5,
+        "trip_distance": 4.92,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 32.05,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -74.0044708252,
+            40.656211853
+        ],
+        "pickup_datetime": "2015-01-01 00:35:25",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:58:06",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9943084717,
+            40.7407112122
+        ],
+        "passenger_count": 1,
+        "fare_amount": 24.5,
+        "extra": 0.5,
+        "trip_distance": 7.76,
+        "tip_amount": 6.25,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 44.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9384841919,
+            40.8476715088
+        ],
+        "pickup_datetime": "2015-01-01 00:35:44",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:13:41",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9517669678,
+            40.711730957
+        ],
+        "passenger_count": 1,
+        "fare_amount": 43,
+        "extra": 0.5,
+        "trip_distance": 13.94,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9492416382,
+            40.6954231262
+        ],
+        "pickup_datetime": "2015-01-01 00:35:38",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:46",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9621200562,
+            40.7132148743
+        ],
+        "passenger_count": 1,
+        "fare_amount": 7.5,
+        "extra": 0.5,
+        "trip_distance": 1.8,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 25.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.947265625,
+            40.7452125549
+        ],
+        "pickup_datetime": "2015-01-01 00:35:21",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:00:24",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9551773071,
+            40.6575241089
+        ],
+        "passenger_count": 3,
+        "fare_amount": 24.5,
+        "extra": 0.5,
+        "trip_distance": 7.3,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 17.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9518966675,
+            40.6787223816
+        ],
+        "pickup_datetime": "2015-01-01 00:35:17",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:49:07",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.941368103,
+            40.7065353394
+        ],
+        "passenger_count": 1,
+        "fare_amount": 12.5,
+        "extra": 0.5,
+        "trip_distance": 3.1,
+        "tip_amount": 4,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 6.2,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9449005127,
+            40.8085784912
+        ],
+        "pickup_datetime": "2015-01-01 00:36:11",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:25",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9443206787,
+            40.814250946
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.53,
+        "tip_amount": 0.9,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 4.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9225769043,
+            40.708770752
+        ],
+        "pickup_datetime": "2015-01-01 00:36:19",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:04",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9244613647,
+            40.7071723938
+        ],
+        "passenger_count": 1,
+        "fare_amount": 3,
+        "extra": 0.5,
+        "trip_distance": 0.15,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9065170288,
+            40.7725296021
+        ],
+        "pickup_datetime": "2015-01-01 00:36:53",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:28",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9136352539,
+            40.7656326294
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.53,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9311218262,
+            40.6967277527
+        ],
+        "pickup_datetime": "2015-01-01 00:36:24",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:43:01",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9413223267,
+            40.7061080933
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6.5,
+        "extra": 0.5,
+        "trip_distance": 1.01,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9352264404,
+            40.8007164001
+        ],
+        "pickup_datetime": "2015-01-01 00:36:09",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:42:50",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9523696899,
+            40.8022613525
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6.5,
+        "extra": 0.5,
+        "trip_distance": 1.1,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9241333008,
+            40.864276886
+        ],
+        "pickup_datetime": "2015-01-01 00:36:08",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:43:43",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.936958313,
+            40.8554649353
+        ],
+        "passenger_count": 1,
+        "fare_amount": 7,
+        "extra": 0.5,
+        "trip_distance": 1.39,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 24.2,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.98487854,
+            40.6867980957
+        ],
+        "pickup_datetime": "2015-01-01 00:34:43",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:00:21",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -74.0172348022,
+            40.7051467896
+        ],
+        "passenger_count": 1,
+        "fare_amount": 19,
+        "extra": 0.5,
+        "trip_distance": 4.46,
+        "tip_amount": 3.9,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 9.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9604492188,
+            40.7186470032
+        ],
+        "pickup_datetime": "2015-01-01 00:34:44",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:42:44",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9472732544,
+            40.7281684875
+        ],
+        "passenger_count": 5,
+        "fare_amount": 7,
+        "extra": 0.5,
+        "trip_distance": 1.32,
+        "tip_amount": 1.5,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 21.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9666595459,
+            40.7137794495
+        ],
+        "pickup_datetime": "2015-01-01 00:34:46",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:53:02",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9643173218,
+            40.7562599182
+        ],
+        "passenger_count": 2,
+        "fare_amount": 19.5,
+        "extra": 0.5,
+        "trip_distance": 5.5,
+        "tip_amount": 1,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 17.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9509124756,
+            40.72397995
+        ],
+        "pickup_datetime": "2015-01-01 00:34:51",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:54:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9063110352,
+            40.7424659729
+        ],
+        "passenger_count": 1,
+        "fare_amount": 16.5,
+        "extra": 0.5,
+        "trip_distance": 4.11,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 24.35,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9742202759,
+            40.6861724854
+        ],
+        "pickup_datetime": "2015-01-01 00:34:54",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:00:17",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.956817627,
+            40.7206459045
+        ],
+        "passenger_count": 1,
+        "fare_amount": 19,
+        "extra": 0.5,
+        "trip_distance": 4.1,
+        "tip_amount": 4.05,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 20.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.8770217896,
+            40.7484893799
+        ],
+        "pickup_datetime": "2015-01-01 00:34:56",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:51:49",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9548721313,
+            40.7203636169
+        ],
+        "passenger_count": 1,
+        "fare_amount": 19.5,
+        "extra": 0.5,
+        "trip_distance": 5.8,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 11.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9473648071,
+            40.7452011108
+        ],
+        "pickup_datetime": "2015-01-01 00:34:48",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:43:23",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9584579468,
+            40.7131118774
+        ],
+        "passenger_count": 1,
+        "fare_amount": 10.5,
+        "extra": 0.5,
+        "trip_distance": 2.7,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 0.3,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.9495239258,
+            40.7945785522
+        ],
+        "pickup_datetime": "2015-01-01 00:34:59",
+        "trip_type": 2,
+        "dropoff_datetime": "2015-01-01 00:35:51",
+        "rate_code_id": 5,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9496307373,
+            40.7946128845
+        ],
+        "passenger_count": 1,
+        "fare_amount": 0.25,
+        "extra": 0,
+        "trip_distance": 0,
+        "tip_amount": 0.05,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9570465088,
+            40.805103302
+        ],
+        "pickup_datetime": "2015-01-01 00:35:03",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:17",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9646072388,
+            40.7970123291
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4.5,
+        "extra": 0.5,
+        "trip_distance": 0.75,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 17.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9254760742,
+            40.7619781494
+        ],
+        "pickup_datetime": "2015-01-01 00:35:13",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:47:46",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8611679077,
+            40.7501144409
+        ],
+        "passenger_count": 1,
+        "fare_amount": 16.5,
+        "extra": 0.5,
+        "trip_distance": 5.14,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 20.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9485778809,
+            40.721321106
+        ],
+        "pickup_datetime": "2015-01-01 00:35:10",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:54:14",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9900741577,
+            40.6801528931
+        ],
+        "passenger_count": 1,
+        "fare_amount": 18.5,
+        "extra": 0.5,
+        "trip_distance": 5.41,
+        "tip_amount": 1,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 18.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9793395996,
+            40.6426544189
+        ],
+        "pickup_datetime": "2015-01-01 00:34:56",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:54:38",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9610214233,
+            40.6610908508
+        ],
+        "passenger_count": 2,
+        "fare_amount": 17,
+        "extra": 0.5,
+        "trip_distance": 4.3,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 20.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9490737915,
+            40.7540969849
+        ],
+        "pickup_datetime": "2015-01-01 00:35:12",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:55:50",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9120864868,
+            40.7068557739
+        ],
+        "passenger_count": 1,
+        "fare_amount": 19,
+        "extra": 0.5,
+        "trip_distance": 5.12,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 22.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9123306274,
+            40.7671089172
+        ],
+        "pickup_datetime": "2015-01-01 00:35:02",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:58:11",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8852462769,
+            40.7031288147
+        ],
+        "passenger_count": 1,
+        "fare_amount": 21.5,
+        "extra": 0.5,
+        "trip_distance": 6.35,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.8920059204,
+            40.7466659546
+        ],
+        "pickup_datetime": "2015-01-01 00:35:08",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:07",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.886428833,
+            40.756313324
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6,
+        "extra": 0.5,
+        "trip_distance": 1.1,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 8.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9219894409,
+            40.7553596497
+        ],
+        "pickup_datetime": "2015-01-01 00:35:34",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:50",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9239730835,
+            40.7435684204
+        ],
+        "passenger_count": 1,
+        "fare_amount": 5.5,
+        "extra": 0.5,
+        "trip_distance": 0.93,
+        "tip_amount": 2,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9576568604,
+            40.717918396
+        ],
+        "pickup_datetime": "2015-01-01 00:35:36",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:40:17",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9597702026,
+            40.7111206055
+        ],
+        "passenger_count": 1,
+        "fare_amount": 5,
+        "extra": 0.5,
+        "trip_distance": 0.79,
+        "tip_amount": 2,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9916687012,
+            40.6734886169
+        ],
+        "pickup_datetime": "2015-01-01 00:35:23",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:40:56",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.978225708,
+            40.6796607971
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6,
+        "extra": 0.5,
+        "trip_distance": 1.04,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 8.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9568710327,
+            40.8022880554
+        ],
+        "pickup_datetime": "2015-01-01 00:35:41",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:49",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9451599121,
+            40.8080062866
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6,
+        "extra": 0.5,
+        "trip_distance": 0.98,
+        "tip_amount": 1,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 14.1,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9569244385,
+            40.7125282288
+        ],
+        "pickup_datetime": "2015-01-01 00:35:17",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:44:47",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9545898438,
+            40.7415618896
+        ],
+        "passenger_count": 1,
+        "fare_amount": 11,
+        "extra": 0.5,
+        "trip_distance": 2.88,
+        "tip_amount": 1.8,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 11.5,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.9912948608,
+            40.685798645
+        ],
+        "pickup_datetime": "2015-01-01 00:35:42",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9573440552,
+            40.6771697998
+        ],
+        "passenger_count": 1,
+        "fare_amount": 10.5,
+        "extra": 0.5,
+        "trip_distance": 2.24,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 18.2,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9590377808,
+            40.7288017273
+        ],
+        "pickup_datetime": "2015-01-01 00:35:13",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:50:59",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.927444458,
+            40.752658844
+        ],
+        "passenger_count": 3,
+        "fare_amount": 14,
+        "extra": 0.5,
+        "trip_distance": 3.16,
+        "tip_amount": 2.9,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 22.25,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9515380859,
+            40.7136764526
+        ],
+        "pickup_datetime": "2015-01-01 00:35:26",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:55:47",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9514389038,
+            40.6708374023
+        ],
+        "passenger_count": 1,
+        "fare_amount": 16,
+        "extra": 0.5,
+        "trip_distance": 3.44,
+        "tip_amount": 4.95,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 26.6,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9630584717,
+            40.7193412781
+        ],
+        "pickup_datetime": "2015-01-01 00:35:40",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:06:44",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9129486084,
+            40.686504364
+        ],
+        "passenger_count": 1,
+        "fare_amount": 21,
+        "extra": 0.5,
+        "trip_distance": 4.04,
+        "tip_amount": 4.3,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 27.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9815063477,
+            40.6670188904
+        ],
+        "pickup_datetime": "2015-01-01 00:35:15",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:10:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9163818359,
+            40.7001838684
+        ],
+        "passenger_count": 1,
+        "fare_amount": 26,
+        "extra": 0.5,
+        "trip_distance": 6.25,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 42.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9461746216,
+            40.7660942078
+        ],
+        "pickup_datetime": "2015-01-01 00:35:27",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:21:40",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8287506104,
+            40.8343582153
+        ],
+        "passenger_count": 1,
+        "fare_amount": 41.5,
+        "extra": 0.5,
+        "trip_distance": 13.14,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 31.13,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9148635864,
+            40.7641868591
+        ],
+        "pickup_datetime": "2015-01-01 00:35:46",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:51:25",
+        "rate_code_id": 1,
+        "tolls_amount": 5.33,
+        "dropoff_location": [
+            -73.9227142334,
+            40.8622665405
+        ],
+        "passenger_count": 1,
+        "fare_amount": 24.5,
+        "extra": 0.5,
+        "trip_distance": 8.38,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 30.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9312438965,
+            40.6706390381
+        ],
+        "pickup_datetime": "2015-01-01 00:35:43",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:02:54",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -74.011100769,
+            40.7089614868
+        ],
+        "passenger_count": 1,
+        "fare_amount": 24.5,
+        "extra": 0.5,
+        "trip_distance": 7.4,
+        "tip_amount": 5,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 15.35,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9607467651,
+            40.7123146057
+        ],
+        "pickup_datetime": "2015-01-01 00:35:35",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:12",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9887924194,
+            40.7266616821
+        ],
+        "passenger_count": 1,
+        "fare_amount": 11.5,
+        "extra": 0.5,
+        "trip_distance": 2.5,
+        "tip_amount": 2.55,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 21.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9362030029,
+            40.7947616577
+        ],
+        "pickup_datetime": "2015-01-01 00:35:30",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:46:37",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9101333618,
+            40.8744659424
+        ],
+        "passenger_count": 1,
+        "fare_amount": 20,
+        "extra": 0.5,
+        "trip_distance": 6.9,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 20.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9359588623,
+            40.8501548767
+        ],
+        "pickup_datetime": "2015-01-01 00:35:22",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:04:43",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9067687988,
+            40.8620986938
+        ],
+        "passenger_count": 3,
+        "fare_amount": 19.5,
+        "extra": 0.5,
+        "trip_distance": 3.6,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 6.42,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9495391846,
+            40.8226737976
+        ],
+        "pickup_datetime": "2015-01-01 00:36:22",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:13",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9482040405,
+            40.8288040161
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.55,
+        "tip_amount": 1.12,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 4.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9204788208,
+            40.8261756897
+        ],
+        "pickup_datetime": "2015-01-01 00:36:28",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:40",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9136123657,
+            40.82421875
+        ],
+        "passenger_count": 1,
+        "fare_amount": 3.5,
+        "extra": 0.5,
+        "trip_distance": 0.42,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9550704956,
+            40.7183609009
+        ],
+        "pickup_datetime": "2015-01-01 00:36:32",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:24",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9601898193,
+            40.7133560181
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4,
+        "extra": 0.5,
+        "trip_distance": 0.45,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9204559326,
+            40.7050971985
+        ],
+        "pickup_datetime": "2015-01-01 00:36:00",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:39:10",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9309234619,
+            40.7039146423
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4.5,
+        "extra": 0.5,
+        "trip_distance": 0.68,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 5.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.8940582275,
+            40.7668037415
+        ],
+        "pickup_datetime": "2015-01-01 00:35:59",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:38:34",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9119110107,
+            40.7678108215
+        ],
+        "passenger_count": 1,
+        "fare_amount": 4.5,
+        "extra": 0.5,
+        "trip_distance": 0.96,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 7.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9569091797,
+            40.802532196
+        ],
+        "pickup_datetime": "2015-01-01 00:36:08",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:40:48",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9685974121,
+            40.7916145325
+        ],
+        "passenger_count": 1,
+        "fare_amount": 6,
+        "extra": 0.5,
+        "trip_distance": 1.15,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 10.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9432296753,
+            40.836517334
+        ],
+        "pickup_datetime": "2015-01-01 00:35:51",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:46:50",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9308700562,
+            40.8593978882
+        ],
+        "passenger_count": 1,
+        "fare_amount": 9.5,
+        "extra": 0.5,
+        "trip_distance": 1.95,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 11,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.890335083,
+            40.7011413574
+        ],
+        "pickup_datetime": "2015-01-01 00:36:41",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:46:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8552322388,
+            40.6927146912
+        ],
+        "passenger_count": 1,
+        "fare_amount": 10,
+        "extra": 0.5,
+        "trip_distance": 2.5,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 21.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9008178711,
+            40.7458229065
+        ],
+        "pickup_datetime": "2015-01-01 00:36:32",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:06",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.824760437,
+            40.7813987732
+        ],
+        "passenger_count": 1,
+        "fare_amount": 20,
+        "extra": 0.5,
+        "trip_distance": 6.71,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 13.7,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.9830322266,
+            40.6772499084
+        ],
+        "pickup_datetime": "2015-01-01 00:36:49",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9475860596,
+            40.6715965271
+        ],
+        "passenger_count": 1,
+        "fare_amount": 10.5,
+        "extra": 0.5,
+        "trip_distance": 2.08,
+        "tip_amount": 2.2,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 10.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.8625640869,
+            40.7499580383
+        ],
+        "pickup_datetime": "2015-01-01 00:35:57",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:22",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8785934448,
+            40.7446212769
+        ],
+        "passenger_count": 1,
+        "fare_amount": 9.5,
+        "extra": 0.5,
+        "trip_distance": 1.78,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 10.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9771118164,
+            40.6722106934
+        ],
+        "pickup_datetime": "2015-01-01 00:36:13",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:23",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9736328125,
+            40.6821861267
+        ],
+        "passenger_count": 1,
+        "fare_amount": 9,
+        "extra": 0.5,
+        "trip_distance": 0.89,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 16.4,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9926757812,
+            40.6835403442
+        ],
+        "pickup_datetime": "2015-01-01 00:35:59",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:49:10",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -74.0034332275,
+            40.6491584778
+        ],
+        "passenger_count": 1,
+        "fare_amount": 12.5,
+        "extra": 0.5,
+        "trip_distance": 3.21,
+        "tip_amount": 2.6,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 10.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9707717896,
+            40.6748962402
+        ],
+        "pickup_datetime": "2015-01-01 00:36:33",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:50:03",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9665374756,
+            40.6917953491
+        ],
+        "passenger_count": 2,
+        "fare_amount": 9.5,
+        "extra": 0.5,
+        "trip_distance": 1.77,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 12.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9175491333,
+            40.8344841003
+        ],
+        "pickup_datetime": "2015-01-01 00:36:00",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:48:34",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9034957886,
+            40.8652305603
+        ],
+        "passenger_count": 1,
+        "fare_amount": 11,
+        "extra": 0.5,
+        "trip_distance": 2.63,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 13.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9441299438,
+            40.8352508545
+        ],
+        "pickup_datetime": "2015-01-01 00:36:40",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:52:20",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9373550415,
+            40.8124504089
+        ],
+        "passenger_count": 1,
+        "fare_amount": 12,
+        "extra": 0.5,
+        "trip_distance": 2.33,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 18.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9709014893,
+            40.6753730774
+        ],
+        "pickup_datetime": "2015-01-01 00:36:51",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:55:01",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9518966675,
+            40.7148857117
+        ],
+        "passenger_count": 1,
+        "fare_amount": 17.5,
+        "extra": 0.5,
+        "trip_distance": 4.18,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 15.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9072113037,
+            40.8257713318
+        ],
+        "pickup_datetime": "2015-01-01 00:36:30",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:55:13",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9139022827,
+            40.8486976624
+        ],
+        "passenger_count": 1,
+        "fare_amount": 14,
+        "extra": 0.5,
+        "trip_distance": 2.77,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 28.4,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9515457153,
+            40.6913986206
+        ],
+        "pickup_datetime": "2015-01-01 00:36:42",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:57:12",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9788208008,
+            40.7379417419
+        ],
+        "passenger_count": 1,
+        "fare_amount": 22.5,
+        "extra": 0.5,
+        "trip_distance": 7.1,
+        "tip_amount": 4.6,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 32.5,
+        "improvement_surcharge": 0,
+        "pickup_location": [
+            -73.939163208,
+            40.8023910522
+        ],
+        "pickup_datetime": "2015-01-01 00:36:26",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:15:40",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -74.0033187866,
+            40.7425498962
+        ],
+        "passenger_count": 5,
+        "fare_amount": 31.5,
+        "extra": 0.5,
+        "trip_distance": 8.1,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 38.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9553146362,
+            40.8046073914
+        ],
+        "pickup_datetime": "2015-01-01 00:36:37",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:19:39",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.999168396,
+            40.7280464172
+        ],
+        "passenger_count": 1,
+        "fare_amount": 37.5,
+        "extra": 0.5,
+        "trip_distance": 10.66,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 2
+    },
+    {
+        "total_amount": 16.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.981590271,
+            40.5771484375
+        ],
+        "pickup_datetime": "2015-01-01 00:36:44",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:50:36",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9446868896,
+            40.6158676147
+        ],
+        "passenger_count": 1,
+        "fare_amount": 15,
+        "extra": 0.5,
+        "trip_distance": 4.6,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 9.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9548110962,
+            40.7334938049
+        ],
+        "pickup_datetime": "2015-01-01 00:36:35",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:44:02",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9252853394,
+            40.7394218445
+        ],
+        "passenger_count": 2,
+        "fare_amount": 8,
+        "extra": 0.5,
+        "trip_distance": 1.9,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 9.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9781723022,
+            40.6694908142
+        ],
+        "pickup_datetime": "2015-01-01 00:36:28",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:45:18",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9555892944,
+            40.6729927063
+        ],
+        "passenger_count": 1,
+        "fare_amount": 8.5,
+        "extra": 0.5,
+        "trip_distance": 1.8,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 11.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.863822937,
+            40.8327102661
+        ],
+        "pickup_datetime": "2015-01-01 00:36:22",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:49:47",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.849357605,
+            40.8223991394
+        ],
+        "passenger_count": 3,
+        "fare_amount": 10,
+        "extra": 0.5,
+        "trip_distance": 1.7,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 29.15,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.927230835,
+            40.7038116455
+        ],
+        "pickup_datetime": "2015-01-01 00:36:18",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:05:23",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9619750977,
+            40.6446800232
+        ],
+        "passenger_count": 1,
+        "fare_amount": 23,
+        "extra": 0.5,
+        "trip_distance": 6.2,
+        "tip_amount": 4.85,
+        "store_and_fwd_flag": "N",
+        "payment_type": 1,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 9.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9516677856,
+            40.7995147705
+        ],
+        "pickup_datetime": "2015-01-01 00:35:47",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:44:53",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9684906006,
+            40.7992858887
+        ],
+        "passenger_count": 2,
+        "fare_amount": 8,
+        "extra": 0.5,
+        "trip_distance": 1.3,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 4,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 37.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.920791626,
+            40.7675857544
+        ],
+        "pickup_datetime": "2015-01-01 00:36:11",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:14:33",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8987426758,
+            40.8727073669
+        ],
+        "passenger_count": 1,
+        "fare_amount": 36.5,
+        "extra": 0.5,
+        "trip_distance": 10.8,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 33.3,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9579544067,
+            40.8004264832
+        ],
+        "pickup_datetime": "2015-01-01 00:36:02",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:08:24",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9996109009,
+            40.7272109985
+        ],
+        "passenger_count": 3,
+        "fare_amount": 32,
+        "extra": 0.5,
+        "trip_distance": 9.3,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 6.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9536743164,
+            40.8069419861
+        ],
+        "pickup_datetime": "2015-01-01 00:35:55",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:41:06",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9532241821,
+            40.7993278503
+        ],
+        "passenger_count": 2,
+        "fare_amount": 5.5,
+        "extra": 0.5,
+        "trip_distance": 0.9,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 14.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9745559692,
+            40.6802330017
+        ],
+        "pickup_datetime": "2015-01-01 00:36:14",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 00:54:45",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.9923782349,
+            40.6698722839
+        ],
+        "passenger_count": 1,
+        "fare_amount": 13.5,
+        "extra": 0.5,
+        "trip_distance": 2.5,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    },
+    {
+        "total_amount": 36.8,
+        "improvement_surcharge": 0.3,
+        "pickup_location": [
+            -73.9686965942,
+            40.6736030579
+        ],
+        "pickup_datetime": "2015-01-01 00:35:48",
+        "trip_type": 1,
+        "dropoff_datetime": "2015-01-01 01:12:55",
+        "rate_code_id": 1,
+        "tolls_amount": 0,
+        "dropoff_location": [
+            -73.8957977295,
+            40.7415046692
+        ],
+        "passenger_count": 2,
+        "fare_amount": 35.5,
+        "extra": 0.5,
+        "trip_distance": 10.2,
+        "tip_amount": 0,
+        "store_and_fwd_flag": "N",
+        "payment_type": 2,
+        "mta_tax": 0.5,
+        "vendor_id": 1
+    }
+]
