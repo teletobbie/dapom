@@ -1,5 +1,4 @@
 from datetime import datetime
-from xml.dom.minidom import Document
 from elasticsearch import Elasticsearch
 from auth import authorize_elastic
 import json
