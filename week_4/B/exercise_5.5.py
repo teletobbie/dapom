@@ -57,13 +57,17 @@ search_geo = {
 result_geo = es.search(index=index_name, body=search_geo, size=100)
 
 pickup_locations = []
+total_amounts = []
 for hit in result_geo["hits"]["hits"]:
     pickup_location = hit["_source"]["pickup_location"]
+    total_amount = hit["_source"]["total_amount"]
     if len(pickup_location) != 0:
         pickup_locations.append(pickup_location)
+        total_amounts.append(total_amount)
 
-m = create_map_with_markers(pickup_locations)
+m = create_map_with_markers(pickup_locations, total_amounts)
 m.save(os.path.join(sys.path[0],"taxi_pickup_locations.html"))
+webbrowser.open(os.path.join(sys.path[0],"taxi_pickup_locations.html"))
 
 
 
