@@ -3,9 +3,10 @@ import numpy as np
 
 price_marker_colors = ['orange', 'lightred', 'red', 'darkred']
 
+# returns an color map as an dict, linking an item (key) to an color (value) 
 def create_color_map(colors: list, items: list):
     items = np.array_split(np.sort(items), len(colors))
-
+    #TODO: rephrase variable names into something more understandable
     color_map = {}
     for i, item in enumerate(items):
         for inner_item in item:
