@@ -20,6 +20,7 @@ executing==1.0.0
 Faker==14.2.1
 folium==0.12.1.post1
 fonttools @ file:///D:/bld/fonttools_1661381488826/work
+gender-guesser==0.4.0
 geographiclib==1.52
 geopy==2.2.0
 gpxpy==1.5.0

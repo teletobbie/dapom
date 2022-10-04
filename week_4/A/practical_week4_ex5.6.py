@@ -11,14 +11,14 @@ taxi = pd.read_json(os.path.join(sys.path[0],"taxiRuns.json"), orient = 'records
 taxi["pickup_location"] = taxi["pickup_location"].apply(lambda x: [x[1], x[0]])
 taxi["dropoff_location"] = taxi["dropoff_location"].apply(lambda x: [x[1], x[0]])
 
-max_point = taxi[["pickup_location", "dropoff_location"]].max()
-min_point = taxi[["pickup_location", "dropoff_location"]].min()
+max_point = taxi[["pickup_location", "dropoff_location"]].max(axis=1).max(axis=0) 
+min_point = taxi[["pickup_location", "dropoff_location"]].min(axis=1).min(axis=0)
 
-center_latitude = (min_point[1][0] + max_point[1][0])/2
-center_longitude = (min_point[1][1] + max_point[1][1])/2 
+center_latitude = (min_point[0] + max_point[0])/2
+center_longitude = (min_point[1] + max_point[1])/2 
 center_location = [center_latitude, center_longitude]
 
-m = folium.Map(location=center_location, zoom_start=12)
+m = folium.Map(location=center_location, zoom_start=10)
 
 # plot all the routes using different colors for every route
 points = taxi[["pickup_location", "dropoff_location"]]
@@ -33,4 +33,4 @@ for i in range(len(points)):
     folium.PolyLine(route, color=colors[i]).add_to(m)
 
 m.save(os.path.join(sys.path[0],"taxiRuns.html"))
-webbrowser.open("taxiRuns.html", new=2)
+webbrowser.open("taxiRuns.html")
