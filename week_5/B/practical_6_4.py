@@ -25,6 +25,12 @@ the statistics per weekday.
 Tip: think about how you should change the code from the final assignment so it
 considers the pickup_datetime field
 Interpret the results. What would "key": "6" mean?
+
+Sources used during this practical:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html 
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-range-aggregation.html
+https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-pipeline-bucket-script-aggregation.html
+https://discuss.elastic.co/t/average-per-day-of-week-aggregation/124132/2 
 """
 
 from elasticsearch import Elasticsearch
