@@ -1,4 +1,5 @@
 *.pyc
+__pycache__
 config.txt
 taxi-100000.json
 taxi-1000000.json
