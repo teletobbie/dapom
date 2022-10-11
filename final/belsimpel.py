@@ -39,28 +39,15 @@ encode_file_margins = get_encoding_from_file(file_margins)
 df_sizes = pd.read_csv(file_sizes, sep=",", encoding=encode_file_sizes)
 df_margins = pd.read_csv(file_margins, sep=",", encoding=encode_file_margins)
 
-# print(df_sizes.dtypes)
-# print(df_sizes.columns)
-# print("\n---------------------------------------\n")
-# print(df_margins.dtypes)
-# print(df_margins.columns)
-"""
-Gather  the  following  information  for  each  product:  (1)  total  demand  on  each  day,  (2)  profit 
-margin, (3) dimensions. A requirement is that you load the orders file in Elasticsearch, and that 
-you will never have a complete copy of all individual orders in Python/Pandas. In this way, you 
-will make it possible to scale your solution to bigger order files (more products, more days). This 
-implies that you need to use Elasticsearch to aggregate individual orders to days. 
-"""
-
-search_body = {
-    "size": 0,
+get_products_search = {
+    "size":0,
     "aggs": {
         "products": {
             "terms": {
                 "field": "product_id",
-                "size": 10,
+                "size": 100000,
                 "order": {
-                    "_key":"asc"
+                    "_key": "asc"
                 }
             }
         }
@@ -68,22 +55,42 @@ search_body = {
 }
 
 
-result = es.search(index=index_name, body=search_body)
-# print(json.dumps(result, indent=1))
-
-df_products = pd.json_normalize(result["aggregations"]["products"]["buckets"])
-df_products.rename(columns={"key": "product_id", "doc_count": "amount_sold"}, inplace=True)
+all_products = es.search(index=index_name, body=get_products_search)
+df_products = pd.json_normalize(all_products["aggregations"]["products"]["buckets"])
+df_products["profit_margin"] = df_margins["margin"]
+df_products["dimensions_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
+df_products.drop(columns=["doc_count"], inplace=True)
+df_products.rename(columns={"key": "product_id"}, inplace=True)
 
 for index, row in df_products.iterrows():
-    print(row)
-    day_search = {
-        "size":0,
+    product_search_id = {
+        "size": 0,
+        "query": {
+            "bool": {
+                "must": {
+                    "term": {
+                        "product_id": row["product_id"]
+                    }
+                }
+            }
+        },
         "aggs": {
-
+            "days": { #key == day, doc_count = how many products from row["product_id"] per day
+                "terms": {
+                    "field": "day",
+                    "size": 100000,
+                    "order": {
+                        "_key": "asc"
+                    }
+                }
+            }
         }
     }
 
-print(df_products)
+    product_search_result = es.search(index=index_name, body=product_search_id)
+    df_demand_per_product_per_day = pd.json_normalize(product_search_result["aggregations"]["days"]["buckets"])
+    df_products.at[index, "total_demand"] = df_demand_per_product_per_day["doc_count"].sum()
+    df_products.at[index, "average_demand_per_day"] = round(df_demand_per_product_per_day["doc_count"].mean())
+    df_products.at[index, "average_demand_std_per_day"] = df_demand_per_product_per_day["doc_count"].std()
 
-
-# print(json_normalize(result["aggregations"]["products"]["buckets"]))
+    
