@@ -3,9 +3,12 @@ from auth import authorize_elastic
 from encoding import get_encoding_from_file
 from db import ingest_csv_file_into_elastic_index
 import pandas as pd
+import numpy as np
 import json
 import os
 import sys
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 username, password = authorize_elastic()
 index_name = "belsimpel"
@@ -58,7 +61,7 @@ get_products_search = {
 all_products = es.search(index=index_name, body=get_products_search)
 df_products = pd.json_normalize(all_products["aggregations"]["products"]["buckets"])
 df_products["profit_margin"] = df_margins["margin"]
-df_products["dimensions_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
+df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products.drop(columns=["doc_count"], inplace=True)
 df_products.rename(columns={"key": "product_id"}, inplace=True)
 
@@ -91,6 +94,22 @@ for index, row in df_products.iterrows():
     df_demand_per_product_per_day = pd.json_normalize(product_search_result["aggregations"]["days"]["buckets"])
     df_products.at[index, "total_demand"] = df_demand_per_product_per_day["doc_count"].sum()
     df_products.at[index, "average_demand_per_day"] = round(df_demand_per_product_per_day["doc_count"].mean())
-    df_products.at[index, "average_demand_std_per_day"] = df_demand_per_product_per_day["doc_count"].std()
+    df_products.at[index, "std_demand_per_day"] = df_demand_per_product_per_day["doc_count"].std()
 
-    
+print(df_products)
+
+df_error_bar = df_products[["product_id","average_demand_per_day","std_demand_per_day"]].sort_values(by="average_demand_per_day", ascending=False)
+print(df_error_bar)
+
+x = df_error_bar["std_demand_per_day"]
+y = df_error_bar["average_demand_per_day"]
+error = df_error_bar["std_demand_per_day"]
+
+ax = plt.subplot()
+ax.errorbar(x, y, xerr=error, ecolor="red")
+ax.set_xlabel("Std")
+ax.set_ylabel("Average daily demand")
+ax.set_title("Errorbar average daily demand")
+
+plt.savefig(os.path.join(sys.path[0], 'errorbar_daily_avg.png'))
+# plt.show()
