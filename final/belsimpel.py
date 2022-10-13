@@ -2,6 +2,7 @@ from elasticsearch import Elasticsearch
 from auth import authorize_elastic
 from encoding import get_encoding_from_file
 from db import ingest_csv_file_into_elastic_index
+from graphs import Graphs
 import pandas as pd
 import numpy as np
 import json
@@ -9,6 +10,9 @@ import os
 import sys
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
+
+
 
 username, password = authorize_elastic()
 index_name = "belsimpel"
@@ -70,6 +74,7 @@ day_count = es.search(index=index_name, aggs=day_count_search, size=0)
 total_days = day_count["aggregations"]["unique_days_count"]["value"]
 
 print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
+print("please wait... I am computing")
 for index, row in df_products.iterrows():
     product_search_id_query = {
         "bool": {
@@ -124,20 +129,39 @@ df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
 print(df_products)
 
-# TODO: to function
-df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(
-    by="average_daily_demand", ascending=False)
+print("Generating plots")
+graphs = Graphs()
+df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(by="average_daily_demand", ascending=False)
 
-x = np.arange(0, len(df_error_bar["product_id"]), 1)
-y = df_error_bar["average_daily_demand"]
+graphs.plot_error_bar(
+    df_error_bar["product_id"], 
+    df_error_bar["average_daily_demand"], 
+    df_error_bar["std_average_daily_demand"], 
+    "Products",
+    "Average daily demand per day",
+    "Errorbar average daily demand per day per product",
+    "errorbar_daily_avg.png",
+    "#B45C1F"
+)
 
-error = df_error_bar["std_average_daily_demand"]
+"""
+Product classes  
+Belsimpel wants to use product classes to effectively manage its large assortment. The classification will 
+be  based  on  the  importance  of  products  which  is  measured  by  the  profit  they  generate  (sales  x  profit 
+margin). There will be three classes of products. These will correspond to the top 20%, following 30%, and 
+the last 50% of products, respectively.
+"""
+# TODO: set three classes of products based on the average daily profit (is this correct?)
+bins = np.histogram_bin_edges(df_products["average_daily_profit"], bins='auto') # https://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html
+graphs.plot_hist(
+    x_array=df_products["average_daily_profit"],
+    xlabel="Average daily profit",
+    ylabel="Percentage",
+    plot_title="Daily profit",
+    image_title="histogram_daily_profit.png",
+    bins=bins
+)
 
-ax = plt.subplot()
-ax.errorbar(x, y, yerr=error, ecolor="#B45C1F")
-ax.set_xlabel("Products")
-ax.set_ylabel("Average daily demand per day")
-ax.set_title("Errorbar average daily demand per day per product")
 
-plt.savefig(os.path.join(sys.path[0], 'errorbar_daily_avg.png'))
-# plt.show()
+
+
