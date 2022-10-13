@@ -1,4 +1,3 @@
-from textwrap import indent
 from elasticsearch import Elasticsearch
 from auth import authorize_elastic
 from encoding import get_encoding_from_file
@@ -39,9 +38,11 @@ file_margins = os.path.join(sys.path[0], "data_dapom_margins.csv")
 encode_file_sizes = get_encoding_from_file(file_sizes)
 encode_file_margins = get_encoding_from_file(file_margins)
 
+print("Creating sizes and margins dataframes")
 df_sizes = pd.read_csv(file_sizes, sep=",", encoding=encode_file_sizes)
 df_margins = pd.read_csv(file_margins, sep=",", encoding=encode_file_margins)
 
+print("Get all products")
 get_products_search = {
     "products": {
         "terms": {
@@ -55,11 +56,7 @@ get_products_search = {
 }
 
 all_products = es.search(index=index_name, aggs=get_products_search, size=0)
-df_products = pd.json_normalize(
-    all_products["aggregations"]["products"]["buckets"])
-df_products["profit_margin"] = df_margins["margin"]
-df_products["product_volume_cm3"] = df_sizes["length"] * \
-    df_sizes["width"] * df_sizes["height"]
+df_products = pd.json_normalize(all_products["aggregations"]["products"]["buckets"])
 df_products.drop(columns=["doc_count"], inplace=True)
 df_products.rename(columns={"key": "product_id"}, inplace=True)
 
@@ -72,6 +69,7 @@ day_count_search = {
 day_count = es.search(index=index_name, aggs=day_count_search, size=0)
 total_days = day_count["aggregations"]["unique_days_count"]["value"]
 
+print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
 for index, row in df_products.iterrows():
     product_search_id_query = {
         "bool": {
@@ -105,10 +103,8 @@ for index, row in df_products.iterrows():
     length_df_demand_per_product_per_day = len(df_demand_per_product_per_day)
 
     if length_df_demand_per_product_per_day <= total_days:
-        zero_keys = np.arange(
-            length_df_demand_per_product_per_day, total_days, 1)
-        zero_doc_count = np.zeros(
-            total_days - length_df_demand_per_product_per_day)
+        zero_keys = np.arange(length_df_demand_per_product_per_day, total_days, 1)
+        zero_doc_count = np.zeros(total_days - length_df_demand_per_product_per_day)
         # https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html
         df_zeroes = pd.DataFrame(
             {
@@ -117,31 +113,29 @@ for index, row in df_products.iterrows():
             },
             index=zero_keys
         )
-        df_demand_per_product_per_day = pd.concat(
-            [df_demand_per_product_per_day, df_zeroes])
+        df_demand_per_product_per_day = pd.concat([df_demand_per_product_per_day, df_zeroes])
 
-    df_products.at[index,
-                   "total_demand"] = df_demand_per_product_per_day["doc_count"].sum()
-    df_products.at[index,
-                   "average_demand_per_day"] = df_demand_per_product_per_day["doc_count"].mean()
-    df_products.at[index,
-                   "std_demand_per_day"] = df_demand_per_product_per_day["doc_count"].std()
+    df_products.at[index,"total_demand"] = df_demand_per_product_per_day["doc_count"].sum()
+    df_products.at[index,"average_daily_demand"] = df_demand_per_product_per_day["doc_count"].mean()
+    df_products.at[index,"std_average_daily_demand"] = df_demand_per_product_per_day["doc_count"].std()
 
+df_products["profit_margin"] = df_margins["margin"]
+df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
+df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
 print(df_products)
 
 # TODO: to function
-df_error_bar = df_products[["product_id", "average_demand_per_day", "std_demand_per_day"]].sort_values(
-    by="average_demand_per_day", ascending=False)
-# print(df_error_bar)
+df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(
+    by="average_daily_demand", ascending=False)
 
 x = np.arange(0, len(df_error_bar["product_id"]), 1)
-y = df_error_bar["average_demand_per_day"]
-error = df_error_bar["std_demand_per_day"]
+y = df_error_bar["average_daily_demand"]
+
+error = df_error_bar["std_average_daily_demand"]
 
 ax = plt.subplot()
 ax.errorbar(x, y, yerr=error, ecolor="#B45C1F")
 ax.set_xlabel("Products")
-ax.set_xticklabels([])
 ax.set_ylabel("Average daily demand per day")
 ax.set_title("Errorbar average daily demand per day per product")
 
