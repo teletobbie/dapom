@@ -1,7 +1,5 @@
-from elasticsearch import Elasticsearch
-from auth import authorize_elastic
-from encoding import get_encoding_from_file
-from db import ingest_csv_file_into_elastic_index
+from utils.encoding import get_encoding_from_file
+from db import Db
 from graphs import Graphs
 import pandas as pd
 import numpy as np
@@ -12,30 +10,22 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
-
-
-username, password = authorize_elastic()
+db = Db()
+graphs = Graphs()
 index_name = "belsimpel"
+document_file_path = os.path.join(sys.path[0], "data_dapom.csv")
 buffer_size = 5000
+es = db.connect()
 
-template = {
-    "number_of_shards": 1
-}
+db.create_index_and_documents(es, index_name, document_file_path, buffer_size)
 
-prop = {
-    "properties": {
-        "day": {"type": "integer"},
-        "product_id": {"type": "integer"}
-    }
-}
+# es = Elasticsearch(hosts=['localhost:9200'], http_auth=(username, password))
 
-es = Elasticsearch(hosts=['localhost:9200'], http_auth=(username, password))
-
-if es.indices.exists(index=index_name) == False:
-    print("haven't found an index document called", index_name)
-    file = os.path.join(sys.path[0], "data_dapom.csv")
-    ingest_csv_file_into_elastic_index(
-        file, es, index_name, template=template, properties=prop, buffer_size=buffer_size)
+# if es.indices.exists(index=index_name) == False:
+#     print("haven't found an index document called", index_name)
+#     file = os.path.join(sys.path[0], "data_dapom.csv")
+#     ingest_csv_file_into_elastic_index(
+#         file, es, index_name, template=template, properties=prop, buffer_size=buffer_size)
 
 file_sizes = os.path.join(sys.path[0], "data_dapom_sizes.csv")
 file_margins = os.path.join(sys.path[0], "data_dapom_margins.csv")
@@ -66,7 +56,6 @@ df_products.rename(columns={"key": "product_id"}, inplace=True)
 
 day_count_search = {
     "unique_days_count": {
-        # get de 730 as the total amount of days
         "cardinality": {"field": "day"}
     }
 }
@@ -130,7 +119,7 @@ df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_p
 print(df_products)
 
 print("Generating plots")
-graphs = Graphs()
+
 df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(by="average_daily_demand", ascending=False)
 
 graphs.plot_error_bar(
@@ -152,15 +141,27 @@ margin). There will be three classes of products. These will correspond to the t
 the last 50% of products, respectively.
 """
 # TODO: set three classes of products based on the average daily profit (is this correct?)
-bins = np.histogram_bin_edges(df_products["average_daily_profit"], bins='auto') # https://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html
+bins = np.histogram_bin_edges(df_products["average_daily_profit"], bins='auto') #Get de proper amount of bins https://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html
 graphs.plot_hist(
     x_array=df_products["average_daily_profit"],
     xlabel="Average daily profit",
-    ylabel="Percentage",
+    ylabel="Amount",
     plot_title="Daily profit",
     image_title="histogram_daily_profit.png",
     bins=bins
 )
+
+bins = np.histogram_bin_edges(df_products["product_volume_cm3"], bins="auto")
+graphs.plot_hist(
+    x_array = df_products["product_volume_cm3"], 
+    xlabel = "Product volume",
+    ylabel = "Amount",
+    plot_title="Product volume in cm^3",
+    image_title="histogram_product_volume.png",
+    bins=bins
+)
+
+
 
 
 
