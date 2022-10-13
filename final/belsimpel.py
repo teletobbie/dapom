@@ -19,14 +19,6 @@ es = db.connect()
 
 db.create_index_and_documents(es, index_name, document_file_path, buffer_size)
 
-# es = Elasticsearch(hosts=['localhost:9200'], http_auth=(username, password))
-
-# if es.indices.exists(index=index_name) == False:
-#     print("haven't found an index document called", index_name)
-#     file = os.path.join(sys.path[0], "data_dapom.csv")
-#     ingest_csv_file_into_elastic_index(
-#         file, es, index_name, template=template, properties=prop, buffer_size=buffer_size)
-
 file_sizes = os.path.join(sys.path[0], "data_dapom_sizes.csv")
 file_margins = os.path.join(sys.path[0], "data_dapom_margins.csv")
 encode_file_sizes = get_encoding_from_file(file_sizes)
