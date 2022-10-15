@@ -6,9 +6,7 @@ import numpy as np
 import json
 import os
 import sys
-import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.ticker import PercentFormatter
 
 db = Db()
 graphs = Graphs()
@@ -72,7 +70,7 @@ for index, row in df_products.iterrows():
             "terms": {
                 "field": "day",
                 "size": 100000,
-                # "min_doc_count": 0, # this is working to also get 0 buckets, but this is very slow
+                # "min_doc_count": 0, # this is working to also get the 0 buckets, but this is very slow
                 "order": {
                     "_key": "asc"
                 }
@@ -88,7 +86,7 @@ for index, row in df_products.iterrows():
     # adding zeroes for the days that the product hasn't been sold
     length_df_demand_per_product_per_day = len(df_demand_per_product_per_day)
 
-    if length_df_demand_per_product_per_day <= total_days:
+    if length_df_demand_per_product_per_day < total_days:
         zero_keys = np.arange(length_df_demand_per_product_per_day, total_days, 1)
         zero_doc_count = np.zeros(total_days - length_df_demand_per_product_per_day)
         # https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html
@@ -105,10 +103,11 @@ for index, row in df_products.iterrows():
     df_products.at[index,"average_daily_demand"] = df_demand_per_product_per_day["doc_count"].mean()
     df_products.at[index,"std_average_daily_demand"] = df_demand_per_product_per_day["doc_count"].std()
 
+# print(df_products)
+
 df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
-print(len(df_products))
 
 print("Generating plots")
 
@@ -165,15 +164,17 @@ of the product classes so that they are visible.
 #sources:
 # https://stackoverflow.com/questions/38936854/categorize-data-in-a-column-in-dataframe 
 # https://pandas.pydata.org/docs/reference/api/pandas.qcut.html
-print("Create product classes")
-classes = pd.qcut(df_products["average_daily_profit"], [0, .50, .80, 1.], labels=["50%", "80%", "100%"])
-df_products["product_class"] = classes
+print("Create product classes and plot")
+df_products["product_class"] = pd.qcut(df_products["average_daily_profit"], [0, .50, .80, 1.], labels=["50%", "80%", "100%"])
 df_low = df_products[df_products["product_class"].str.contains("50%")].reset_index(drop=True)
 df_medium = df_products[df_products["product_class"].str.contains("80%")].reset_index(drop=True)
 df_high = df_products[df_products["product_class"].str.contains("100%")].reset_index(drop=True)
-print(df_low)
-print(df_medium)
-print(df_high)
+
+classes = ["last 50%", 'mid 30%', 'top 20%']
+dfs_product_classes = [df_low, df_medium, df_high]
+graphs.plot_product_classes(dfs_product_classes, classes)
+
+
 
 
 
