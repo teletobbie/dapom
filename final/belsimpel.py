@@ -1,3 +1,4 @@
+from email.errors import BoundaryError
 from utils.encoding import get_encoding_from_file
 from db import Db
 from graphs import Graphs
@@ -166,9 +167,9 @@ of the product classes so that they are visible.
 # https://pandas.pydata.org/docs/reference/api/pandas.qcut.html
 print("Create product classes and plots")
 df_products["product_class"] = pd.qcut(df_products["average_daily_profit"], [0, .50, .80, 1.], labels=["50%", "80%", "100%"])
-df_low = df_products[df_products["product_class"].str.contains("50%")].reset_index(drop=True)
-df_medium = df_products[df_products["product_class"].str.contains("80%")].reset_index(drop=True)
-df_high = df_products[df_products["product_class"].str.contains("100%")].reset_index(drop=True)
+df_low = df_products[df_products["product_class"].str.contains("50%")]
+df_medium = df_products[df_products["product_class"].str.contains("80%")]
+df_high = df_products[df_products["product_class"].str.contains("100%")]
 
 product_classes = ["last 50%", 'mid 30%', 'top 20%']
 dfs_product_classes = [df_low, df_medium, df_high]
@@ -176,7 +177,45 @@ dfs_average_profits = [df_low["average_daily_profit"], df_medium["average_daily_
 graphs.plot_product_classes(dfs_product_classes, product_classes)
 graphs.plot_total_profit_per_product_class(dfs_average_profits, product_classes)
 
-# print("Plot the average daily profits")
+"""
+8. Plot  the  average  daily  profits  of  each  product  on  a  bar  chart  where  products  are  sorted  in  a 
+descending order based on the profit they generate. Mark the products that are at the boundaries 
+of the product classes so that they are visible. 
+"""
+# get de min / max rows from df_low, df_mid, and df_high
+df_products_sorted_on_profit_desc = df_products.sort_values(by="average_daily_profit", ascending=False)
+# source: https://stackoverflow.com/questions/32653825/how-to-color-data-points-based-on-some-rules-in-matplotlib
+boundary_products = [
+    df_low["average_daily_profit"].min(),
+    df_low["average_daily_profit"].max(),
+    df_medium["average_daily_profit"].min(),
+    df_medium["average_daily_profit"].max(), 
+    df_high["average_daily_profit"].min(),
+    df_high["average_daily_profit"].max()
+]
+
+# colors_based_avg_profit = ["#B45C1F" if avg in boundary_products else "#1F77B4" for avg in df_products_sorted_on_profit_desc["average_daily_profit"].to_list()]
+boundary_indexes = df_products_sorted_on_profit_desc.loc[df_products_sorted_on_profit_desc["average_daily_profit"].isin(boundary_products)].index.to_list()
+
+X_axis = np.arange(len(df_products_sorted_on_profit_desc)) 
+
+x = X_axis
+y = df_products_sorted_on_profit_desc["average_daily_profit"]
+barlist = plt.bar(x, y)
+for bi in boundary_indexes:
+    #source: https://stackoverflow.com/questions/18973404/setting-different-bar-color-in-matplotlib-python
+    barlist[bi].set_color("red")
+    barlist[bi].set_edgecolor("red") 
+
+
+plt.xlabel("Products")
+plt.ylabel("Profits")
+plt.title("Average daily profits of each product")
+plt.savefig(os.path.join(sys.path[0], "plots", "average_daily_profit_per_product_with_markings.png"))
+plt.close()
+
+
+
 
 
 
