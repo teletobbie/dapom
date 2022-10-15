@@ -164,15 +164,19 @@ of the product classes so that they are visible.
 #sources:
 # https://stackoverflow.com/questions/38936854/categorize-data-in-a-column-in-dataframe 
 # https://pandas.pydata.org/docs/reference/api/pandas.qcut.html
-print("Create product classes and plot")
+print("Create product classes and plots")
 df_products["product_class"] = pd.qcut(df_products["average_daily_profit"], [0, .50, .80, 1.], labels=["50%", "80%", "100%"])
 df_low = df_products[df_products["product_class"].str.contains("50%")].reset_index(drop=True)
 df_medium = df_products[df_products["product_class"].str.contains("80%")].reset_index(drop=True)
 df_high = df_products[df_products["product_class"].str.contains("100%")].reset_index(drop=True)
 
-classes = ["last 50%", 'mid 30%', 'top 20%']
+product_classes = ["last 50%", 'mid 30%', 'top 20%']
 dfs_product_classes = [df_low, df_medium, df_high]
-graphs.plot_product_classes(dfs_product_classes, classes)
+dfs_average_profits = [df_low["average_daily_profit"], df_medium["average_daily_profit"], df_high["average_daily_profit"]]
+graphs.plot_product_classes(dfs_product_classes, product_classes)
+graphs.plot_total_profit_per_product_class(dfs_average_profits, product_classes)
+
+# print("Plot the average daily profits")
 
 
 

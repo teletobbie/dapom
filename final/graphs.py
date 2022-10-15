@@ -38,14 +38,16 @@ class Graphs:
 
 
     #params desc: product_class_dfs = list[df per product class], classes = list of types of classes e.g. ["last 50%", 'mid 30%', 'top 20%'] 
-    def plot_product_classes(self, product_class_dfs, classes):
+    def plot_product_classes(self, dfs_product_class, classes):
         # source: https://www.geeksforgeeks.org/create-a-grouped-bar-plot-in-matplotlib/ 
-        X_axis = np.arange(len(classes)) # e.g. converts ["last 50%", 'mid 30%', 'top 20%'] to number array [0, 1, 2]  
+        X_axis = np.arange(len(classes)) 
 
-        for index, df in enumerate(product_class_dfs):
-            x = X_axis[index] # numberical x class position in de bargraph
-            y = len(df) # amount of products falling in x class
-            plt.bar(x, y, 0.4, label=classes[index])
+        for index, df in enumerate(dfs_product_class):
+            x_class = X_axis[index]
+            y_class = len(df)
+            label_class = classes[index]
+            plt.bar(x_class, y_class, 0.4, label=label_class)
+
 
         plt.xticks(X_axis, classes)
         plt.xlabel("Product classes")
@@ -54,3 +56,22 @@ class Graphs:
         plt.legend()
         plt.savefig(os.path.join(plot_folder_path, "product_classes.png"))
         plt.close()
+
+    def plot_total_profit_per_product_class(self, dfs_profits, classes):
+        X_axis = np.arange(len(classes)) 
+
+        for index, df in enumerate(dfs_profits):
+            x_class = X_axis[index]
+            y_class = sum(df)
+            label_class = classes[index]
+            plt.bar(x_class, y_class, 0.4, label=label_class)
+
+
+        plt.xticks(X_axis, classes)
+        plt.xlabel("Product classes")
+        plt.ylabel("Profits")
+        plt.title("Total profit per product class")
+        plt.legend()
+        plt.savefig(os.path.join(plot_folder_path, "total_profit_per_product_class.png"))
+        plt.close()
+
