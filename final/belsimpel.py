@@ -1,10 +1,8 @@
-from email.errors import BoundaryError
 from utils.encoding import get_encoding_from_file
 from db import Db
 from graphs import Graphs
 import pandas as pd
 import numpy as np
-import json
 import os
 import sys
 import matplotlib.pyplot as plt
@@ -184,8 +182,9 @@ of the product classes so that they are visible.
 """
 # get de min / max rows from df_low, df_mid, and df_high
 df_products_sorted_on_profit_desc = df_products.sort_values(by="average_daily_profit", ascending=False)
+
 # source: https://stackoverflow.com/questions/32653825/how-to-color-data-points-based-on-some-rules-in-matplotlib
-boundary_products = [
+boundary_avg_d_profits = [
     df_low["average_daily_profit"].min(),
     df_low["average_daily_profit"].max(),
     df_medium["average_daily_profit"].min(),
@@ -195,24 +194,62 @@ boundary_products = [
 ]
 
 # colors_based_avg_profit = ["#B45C1F" if avg in boundary_products else "#1F77B4" for avg in df_products_sorted_on_profit_desc["average_daily_profit"].to_list()]
-boundary_indexes = df_products_sorted_on_profit_desc.loc[df_products_sorted_on_profit_desc["average_daily_profit"].isin(boundary_products)].index.to_list()
+# boundary_products = df_products_sorted_on_profit_desc.loc[df_products_sorted_on_profit_desc["average_daily_profit"].isin(boundary_avg_d_profits)]["product_id"].to_list()
 
-X_axis = np.arange(len(df_products_sorted_on_profit_desc)) 
-
-x = X_axis
+x = np.arange(1, len(df_products_sorted_on_profit_desc) + 1) 
 y = df_products_sorted_on_profit_desc["average_daily_profit"]
-barlist = plt.bar(x, y)
-for bi in boundary_indexes:
-    #source: https://stackoverflow.com/questions/18973404/setting-different-bar-color-in-matplotlib-python
-    barlist[bi].set_color("red")
-    barlist[bi].set_edgecolor("red") 
+cmap = ["#d62728" if avg in boundary_avg_d_profits else "#17becf" for avg in y]
 
+barlist = plt.bar(x, y, color=cmap, width=0.4)
+
+# for bp in boundary_products:
+#     #source: https://stackoverflow.com/questions/18973404/setting-different-bar-color-in-matplotlib-python
+#     barlist[bp].set_capstyle("round")
+#     barlist[bp].set_label("Product class boundaries")
+#     barlist[bp].set_color("red")
+#     barlist[bp].set_edgecolor("red")
+#     barlist[bp].set_alpha(1) 
 
 plt.xlabel("Products")
 plt.ylabel("Profits")
 plt.title("Average daily profits of each product")
 plt.savefig(os.path.join(sys.path[0], "plots", "average_daily_profit_per_product_with_markings.png"))
 plt.close()
+
+
+"""
+Belsimpel will be using a periodic-review base-stock policy for managing inventories. The replenishment 
+interval will be one week for all products. To avoid stock-outs, base-stock levels will be set on a product 
+by product basis. This will be done following the μ+zσ rule, where z is a multiplier that is specific to each 
+product  class, and, μ and σ respectively stand for  the  mean and the standard deviation of the demand 
+over the replenishment interval. The multipliers for the  three  product  classes  will be  the z-scores1 that 
+correspond  to  probabilities  0.99,  0.95,  and  0.90,  respectively.  Thus,  the  safety  stocks  will  be  relatively 
+larger for more important products. The base-stock levels are critical as the storage space allocated to a 
+product should be large enough to cover its base-stock level.
+ 
+10.  Compute the average and standard deviation of the demand over the replenishment interval for 
+each product.  
+Hint: If the average and the standard deviation of the daily demand are μ and σ; then those of the 
+demand over T days will be Tμ and √Tσ, respectively.  
+11.  Compute the base-stock level for each product.  
+12.  Compute the number of pick-up boxes required for each product, based on the product volumes 
+and that of the standard pick-up box. Plot these on a histogram using proper number of bins. 
+13.  Briefly comment on your observations based on the graph you have produced. 
+"""
+print("Analyze the base-stock levels")
+replenishment_interval = 7 # equals 7 days in this case
+low_50_z_score = 0.99
+mid_30_z_score = 0.95
+top_20_z_score = 0.90
+
+df_stock = df_products[["product_id", "average_daily_demand", "std_average_daily_demand", "product_volume_cm3", "product_class"]]
+# use assign in order to avoid SettingWithCopyWarning warning: https://www.machinelearningplus.com/pandas/pandas-add-column/ 
+df_stock = df_stock.assign(avg_daily_demand_repln_intv=replenishment_interval * df_stock["average_daily_demand"])
+df_stock = df_stock.assign(avg_std_daily_demand_repln_intv=np.sqrt(replenishment_interval * df_stock["std_average_daily_demand"]))
+
+print(df_stock)
+
+
 
 
 
