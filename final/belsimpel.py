@@ -108,7 +108,7 @@ df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
 
-print("Generating plots")
+print("Plotting daily demand")
 
 df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(by="average_daily_demand", ascending=False)
 
@@ -122,7 +122,6 @@ graphs.plot_error_bar(
     "errorbar_daily_avg.png",
     "#B45C1F"
 )
-
 
 # TODO: set three classes of products based on the average daily profit (is this correct?)
 bins = np.histogram_bin_edges(df_products["average_daily_profit"], bins='auto') #Get de proper amount of bins https://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html
@@ -216,17 +215,7 @@ plt.title("Average daily profits of each product")
 plt.savefig(os.path.join(sys.path[0], "plots", "average_daily_profit_per_product_with_markings.png"))
 plt.close()
 
-
 """
-Belsimpel will be using a periodic-review base-stock policy for managing inventories. The replenishment 
-interval will be one week for all products. To avoid stock-outs, base-stock levels will be set on a product 
-by product basis. This will be done following the μ+zσ rule, where z is a multiplier that is specific to each 
-product  class, and, μ and σ respectively stand for  the  mean and the standard deviation of the demand 
-over the replenishment interval. The multipliers for the  three  product  classes  will be  the z-scores1 that 
-correspond  to  probabilities  0.99,  0.95,  and  0.90,  respectively.  Thus,  the  safety  stocks  will  be  relatively 
-larger for more important products. The base-stock levels are critical as the storage space allocated to a 
-product should be large enough to cover its base-stock level.
- 
 10.  Compute the average and standard deviation of the demand over the replenishment interval for 
 each product.  
 Hint: If the average and the standard deviation of the daily demand are μ and σ; then those of the 
@@ -236,8 +225,9 @@ demand over T days will be Tμ and √Tσ, respectively.
 and that of the standard pick-up box. Plot these on a histogram using proper number of bins. 
 13.  Briefly comment on your observations based on the graph you have produced. 
 """
-print("Analyze the base-stock levels")
+print("Analyze the base-stock levels and storage space")
 replenishment_interval = 7 # equals 7 days in this case
+pickup_box_size = (40 * 40 * 20) * 0.9
 low_50_z_score = 0.99
 mid_30_z_score = 0.95
 top_20_z_score = 0.90
@@ -247,7 +237,22 @@ df_stock = df_products[["product_id", "average_daily_demand", "std_average_daily
 df_stock = df_stock.assign(avg_daily_demand_repln_intv=replenishment_interval * df_stock["average_daily_demand"])
 df_stock = df_stock.assign(avg_std_daily_demand_repln_intv=np.sqrt(replenishment_interval * df_stock["std_average_daily_demand"]))
 
-print(df_stock)
+for index, row in df_stock.iterrows():
+    product_class = df_stock.at[index, "product_class"]
+    avg_daily_demand_repln_intv = df_stock.at[index, "avg_daily_demand_repln_intv"]
+    avg_std_daily_demand_repln_intv = df_stock.at[index, "avg_std_daily_demand_repln_intv"]
+    if product_class == "50%":
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (low_50_z_score * avg_std_daily_demand_repln_intv)
+    elif product_class == "80%":
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (mid_30_z_score * avg_std_daily_demand_repln_intv)
+    elif product_class == "100%":
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * avg_std_daily_demand_repln_intv)
+
+# number of pickup boxes based on the multiplying the base stock with product volume divided by the pickup box volume (all in cm3)
+df_stock = df_stock.assign(pickup_boxes=np.ceil((df_stock["base_stock"] * df_stock["product_volume_cm3"]) / pickup_box_size))
+
+bins = np.histogram_bin_edges(df_stock["pickup_boxes"], bins="auto")
+graphs.plot_hist(x_array=df_stock["pickup_boxes"], xlabel="Number of pickup boxes", ylabel="Amount of products", plot_title="Number of pick-up boxes required for each product", image_title="number_of_pickup_boxes", bins=bins)
 
 
 
