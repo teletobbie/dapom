@@ -1,3 +1,4 @@
+import json
 from utils.encoding import get_encoding_from_file
 from db import Db
 from graphs import Graphs
@@ -6,6 +7,8 @@ import numpy as np
 import os
 import sys
 import matplotlib.pyplot as plt
+import seaborn as sns
+import datetime
 
 db = Db()
 graphs = Graphs()
@@ -51,14 +54,20 @@ day_count_search = {
 day_count = es.search(index=index_name, aggs=day_count_search, size=0)
 total_days = day_count["aggregations"]["unique_days_count"]["value"]
 
-print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
-print("please wait... I am computing")
-for index, row in df_products.iterrows():
+# step 1.14
+
+daily_demand_per_product = np.zeros((len(df_products) + 1, total_days))
+
+def compute_daily_demand_on_product_id(index, product_id):
+
+    def add_daily_demand_per_product(product_id, day, amount_sold):
+        daily_demand_per_product[product_id][day - 1] = amount_sold
+
     product_search_id_query = {
         "bool": {
             "must": {
                 "term": {
-                    "product_id": row["product_id"]
+                    "product_id": product_id
                 }
             }
         }
@@ -66,9 +75,9 @@ for index, row in df_products.iterrows():
 
     product_search_id_aggs = {
         "days": {  # key == day, doc_count = how many products from row["product_id"] are sold per day
-            "terms": {
+            "histogram": { #source: ht tps://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-histogram-aggregation.html
                 "field": "day",
-                "size": 100000,
+                "interval": 1,
                 # "min_doc_count": 0, # this is working to also get the 0 buckets, but this is very slow
                 "order": {
                     "_key": "asc"
@@ -81,32 +90,29 @@ for index, row in df_products.iterrows():
 
     df_demand_per_product_per_day = pd.json_normalize(product_search_result["aggregations"]["days"]["buckets"])
 
-    # TODO: this can be an function
-    # adding zeroes for the days that the product hasn't been sold
-    length_df_demand_per_product_per_day = len(df_demand_per_product_per_day)
-
-    if length_df_demand_per_product_per_day < total_days:
-        zero_keys = np.arange(length_df_demand_per_product_per_day, total_days, 1)
-        zero_doc_count = np.zeros(total_days - length_df_demand_per_product_per_day)
-        # https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html
-        df_zeroes = pd.DataFrame(
-            {
-                "key": zero_keys,
-                "doc_count": zero_doc_count
-            },
-            index=zero_keys
-        )
-        df_demand_per_product_per_day = pd.concat([df_demand_per_product_per_day, df_zeroes])
-
     df_products.at[index,"total_demand"] = df_demand_per_product_per_day["doc_count"].sum()
     df_products.at[index,"average_daily_demand"] = df_demand_per_product_per_day["doc_count"].mean()
     df_products.at[index,"std_average_daily_demand"] = df_demand_per_product_per_day["doc_count"].std()
 
-# print(df_products)
+    # 1.14: add the key (day) and doc_count (sold) to a destinct for the correlation matrix
+    [add_daily_demand_per_product(product_id, day, amount_sold) for day, amount_sold in df_demand_per_product_per_day[["key","doc_count"]].to_numpy(dtype=int)]
 
+
+start_time = datetime.datetime.now()
+print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
+print("Starting at", start_time)
+print("please wait... I am computing")
+
+# use list comprension with an for faster iteration source: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas 
+[compute_daily_demand_on_product_id(index, product_id) for index, product_id in zip(df_products.index, df_products["product_id"])]
+
+total_time = datetime.datetime.now() - start_time
+print("Computing is finished and it took", total_time)
 df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
+
+print(df_products)
 
 print("Plotting daily demand")
 
@@ -237,7 +243,7 @@ df_stock = df_products[["product_id", "average_daily_demand", "std_average_daily
 df_stock = df_stock.assign(avg_daily_demand_repln_intv=replenishment_interval * df_stock["average_daily_demand"])
 df_stock = df_stock.assign(avg_std_daily_demand_repln_intv=np.sqrt(replenishment_interval * df_stock["std_average_daily_demand"]))
 
-for index, row in df_stock.iterrows():
+def compute_base_stock(index):
     product_class = df_stock.at[index, "product_class"]
     avg_daily_demand_repln_intv = df_stock.at[index, "avg_daily_demand_repln_intv"]
     avg_std_daily_demand_repln_intv = df_stock.at[index, "avg_std_daily_demand_repln_intv"]
@@ -248,6 +254,8 @@ for index, row in df_stock.iterrows():
     elif product_class == "100%":
         df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * avg_std_daily_demand_repln_intv)
 
+[compute_base_stock(index) for index in df_stock.index]
+
 # number of pickup boxes based on the multiplying the base stock with product volume divided by the pickup box volume (all in cm3)
 df_stock = df_stock.assign(pickup_boxes=np.ceil((df_stock["base_stock"] * df_stock["product_volume_cm3"]) / pickup_box_size))
 
@@ -255,6 +263,32 @@ bins = np.histogram_bin_edges(df_stock["pickup_boxes"], bins="auto")
 graphs.plot_hist(x_array=df_stock["pickup_boxes"], xlabel="Number of pickup boxes", ylabel="Amount of products", plot_title="Number of pick-up boxes required for each product", image_title="number_of_pickup_boxes", bins=bins)
 
 
+"""
+Identify the product couples with highly correlated demands. 
+14.  Compute  the  correlation  matrix  between  the  average  daily  demands  of  products.  Plot  the 
+correlation matrix on a heatmap5. Make sure that you use a colorbar and a suitable colormap for 
+better visibility.
+15.  Make a list of product couples such that 
+     1. the correlation coefficient between their average daily demands  are  larger  than  or  equal  to  the  threshold  value  
+     2. the  first  product  belongs  to a higher class than the second product. Report the number of product couples in your list.  
+16.  Plot  your  correlation  matrix  once  again  but  this  time  highlight  the  product  couples  you  have 
+determined with a visible mark. 
+17.  Briefly comment on your observations based on the graphs you have produced.
+
+Sources:
+https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html
+https://seaborn.pydata.org/generated/seaborn.heatmap.html  
+"""
+print("Identify product couples with highly correlated demands")
+
+x = daily_demand_per_product[1:] # skip the first element because this is not filled
+rho = np.corrcoef(x)
+print(rho)
+cmap = sns.color_palette("coolwarm", as_cmap=True)
+sns.heatmap(rho, cmap=cmap)
+plt.title("Corr. matrix between the average daily demands of products")
+plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand.png"))
+plt.close()
 
 
 
