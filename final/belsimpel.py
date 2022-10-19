@@ -112,8 +112,6 @@ df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
 
-print(df_products)
-
 print("Plotting daily demand")
 
 df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(by="average_daily_demand", ascending=False)
@@ -203,16 +201,16 @@ boundary_avg_d_profits = [
 
 x = np.arange(1, len(df_products_sorted_on_profit_desc) + 1) 
 y = df_products_sorted_on_profit_desc["average_daily_profit"]
-cmap = ["#d62728" if avg in boundary_avg_d_profits else "#17becf" for avg in y]
+cmap = ["red" if avg in boundary_avg_d_profits else "#17becf" for avg in y]
 
-barlist = plt.bar(x, y, color=cmap, width=0.4)
+barlist = plt.bar(x, y, color=cmap, edgecolor=cmap, width=1.5)
 
 # for bp in boundary_products:
 #     #source: https://stackoverflow.com/questions/18973404/setting-different-bar-color-in-matplotlib-python
-#     barlist[bp].set_capstyle("round")
-#     barlist[bp].set_label("Product class boundaries")
-#     barlist[bp].set_color("red")
-#     barlist[bp].set_edgecolor("red")
+#     # barlist[bp].set_capstyle("round")
+#     # barlist[bp].set_label("Product class boundaries")
+#     # barlist[bp].set_color("red")
+#     # barlist[bp].set_edgecolor("red")
 #     barlist[bp].set_alpha(1) 
 
 plt.xlabel("Products")
@@ -283,12 +281,14 @@ print("Identify product couples with highly correlated demands")
 
 x = daily_demand_per_product[1:] # skip the first element because this is not filled
 rho = np.corrcoef(x)
-print(rho)
 cmap = sns.color_palette("coolwarm", as_cmap=True)
 sns.heatmap(rho, cmap=cmap)
 plt.title("Corr. matrix between the average daily demands of products")
 plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand.png"))
 plt.close()
+
+flat = rho.flatten()
+print(flat)
 
 
 
