@@ -279,17 +279,19 @@ https://seaborn.pydata.org/generated/seaborn.heatmap.html
 """
 print("Identify product couples with highly correlated demands")
 # daily_demand_per_product returns [product_id][day] = sales 
-product_couples = []
 x = daily_demand_per_product[1:] # skip the first element because this has only zeroes
 corr_matrix = np.corrcoef(x)
 cmap = sns.color_palette("coolwarm", as_cmap=True)
-sns.heatmap(corr_matrix, cmap=cmap)
+sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
 plt.title("Corr. matrix between the average daily demands of products")
 plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand.png"))
 plt.close()
 
+product_couples = []
+totalnr_of_highly_corr = 0
 #source: https://stackoverflow.com/questions/60162118/how-to-get-nth-max-correlation-coefficient-and-its-index-by-using-numpy
 def create_product_couples(index, corr):
+    global totalnr_of_highly_corr
     def is_first_product_a_higher_class(first_class_percentage : str, second_class_percentage : str):
         first_class = int(first_class_percentage.split("%")[0])
         second_class = int(second_class_percentage.split("%")[0])
@@ -301,19 +303,24 @@ def create_product_couples(index, corr):
     result = np.where(flat >= 0.6)[0] #to get the the "natural" answer of numpy.where, we have to do [0] source: https://stackoverflow.com/questions/50646102/what-is-the-purpose-of-numpy-where-returning-a-tuple
     if len(result) > 1: 
         highly_correlated_indexes = np.array(result)
+        totalnr_of_highly_corr = totalnr_of_highly_corr + len(highly_correlated_indexes)
         highly_correlated_indexes = highly_correlated_indexes[highly_correlated_indexes != index] #This removes the product index that is correlated to itself (the perfect 1.0 index)
         df_first_product = df_products.loc[df_products.index == index,:] 
         for correlated_index in highly_correlated_indexes:
             df_second_product = df_products.loc[df_products.index == correlated_index,:] 
             if is_first_product_a_higher_class(df_first_product["product_class"].values[0], df_second_product["product_class"].values[0]):
+                corr_matrix[index, correlated_index] = np.nan
                 product_couples.append((df_first_product["product_id"].values[0], df_second_product["product_id"].values[0]))
 
 [create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
+print("Found out of the", totalnr_of_highly_corr, "highly correlated demands", len(product_couples), "product couples") 
 
-print("Found", len(product_couples), "product couples")      
-print(product_couples)
-        
-
+cmap = sns.color_palette("coolwarm", as_cmap=True)
+g = sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
+g.set_facecolor('xkcd:black')
+plt.title("Corr. matrix between the average daily demands of products masked")
+plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand_masked.png"))
+plt.close()
 
 
 
