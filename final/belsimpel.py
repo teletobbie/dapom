@@ -55,7 +55,6 @@ day_count = es.search(index=index_name, aggs=day_count_search, size=0)
 total_days = day_count["aggregations"]["unique_days_count"]["value"]
 
 # step 1.14
-
 daily_demand_per_product = np.zeros((len(df_products) + 1, total_days))
 
 def compute_daily_demand_on_product_id(index, product_id):
@@ -78,7 +77,9 @@ def compute_daily_demand_on_product_id(index, product_id):
             "histogram": { #source: ht tps://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-histogram-aggregation.html
                 "field": "day",
                 "interval": 1,
-                # "min_doc_count": 0, # this is working to also get the 0 buckets, but this is very slow
+                "extended_bounds": { #add this return zero buckets source: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-histogram-aggregation.html#search-aggregations-bucket-histogram-aggregation-extended-bounds
+                  "min": 1,
+                },
                 "order": {
                     "_key": "asc"
                 }
@@ -102,7 +103,6 @@ start_time = datetime.datetime.now()
 print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
 print("Starting at", start_time)
 print("please wait... I am computing")
-
 # use list comprension with an for faster iteration source: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas 
 [compute_daily_demand_on_product_id(index, product_id) for index, product_id in zip(df_products.index, df_products["product_id"])]
 
@@ -278,17 +278,41 @@ https://numpy.org/doc/stable/reference/generated/numpy.corrcoef.html
 https://seaborn.pydata.org/generated/seaborn.heatmap.html  
 """
 print("Identify product couples with highly correlated demands")
-
-x = daily_demand_per_product[1:] # skip the first element because this is not filled
-rho = np.corrcoef(x)
+# daily_demand_per_product returns [product_id][day] = sales 
+product_couples = []
+x = daily_demand_per_product[1:] # skip the first element because this has only zeroes
+corr_matrix = np.corrcoef(x)
 cmap = sns.color_palette("coolwarm", as_cmap=True)
-sns.heatmap(rho, cmap=cmap)
+sns.heatmap(corr_matrix, cmap=cmap)
 plt.title("Corr. matrix between the average daily demands of products")
 plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand.png"))
 plt.close()
 
-flat = rho.flatten()
-print(flat)
+#source: https://stackoverflow.com/questions/60162118/how-to-get-nth-max-correlation-coefficient-and-its-index-by-using-numpy
+def create_product_couples(index, corr):
+    def is_first_product_a_higher_class(first_class_percentage : str, second_class_percentage : str):
+        first_class = int(first_class_percentage.split("%")[0])
+        second_class = int(second_class_percentage.split("%")[0])
+        if first_class > second_class: return True
+        else: return False
+
+    flat = np.array(corr).flatten()
+    #get all highly correlated products
+    result = np.where(flat >= 0.6)[0] #to get the the "natural" answer of numpy.where, we have to do [0] source: https://stackoverflow.com/questions/50646102/what-is-the-purpose-of-numpy-where-returning-a-tuple
+    if len(result) > 1: 
+        highly_correlated_indexes = np.array(result)
+        highly_correlated_indexes = highly_correlated_indexes[highly_correlated_indexes != index] #This removes the product index that is correlated to itself (the perfect 1.0 index)
+        df_first_product = df_products.loc[df_products.index == index,:] 
+        for correlated_index in highly_correlated_indexes:
+            df_second_product = df_products.loc[df_products.index == correlated_index,:] 
+            if is_first_product_a_higher_class(df_first_product["product_class"].values[0], df_second_product["product_class"].values[0]):
+                product_couples.append((df_first_product["product_id"].values[0], df_second_product["product_id"].values[0]))
+
+[create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
+
+print("Found", len(product_couples), "product couples")      
+print(product_couples)
+        
 
 
 
