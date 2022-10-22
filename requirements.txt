@@ -62,6 +62,7 @@ python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateu
 pytz @ file:///C:/Windows/TEMP/abs_90eacd4e-8eff-491e-b26e-f707eba2cbe1ujvbhqz1/croots/recipe/pytz_1654762631027/work
 requests==2.28.1
 scipy==1.9.1
+seaborn==0.12.0
 sip @ file:///D:/bld/sip_1655765040828/work
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 smopy==0.0.8
