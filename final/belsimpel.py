@@ -315,7 +315,7 @@ def create_product_couples(index, corr):
 
 [create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
 print("Found out of the", totalnr_of_highly_corr, "highly correlated products", len(product_couples), "product couples") 
-print(product_couples)
+# print(product_couples)
 
 cmap = sns.color_palette("coolwarm", as_cmap=True)
 g = sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
@@ -325,40 +325,6 @@ plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand_mas
 plt.close()
 
 """
-Product classes
-The classification will 
-be  based  on  the  importance  of  products  which  is  measured  by  the  profit  they  generate  (sales  x  profit 
-margin). There will be three classes of products. These will correspond to the top 20%, following 30%, and 
-the last 50% of products, respectively.
-
-Impact of delivery times 
-
-The data analytics team of Belsimpel has recently run an analysis to get a better understanding of demand 
-dynamics. The results of this analysis reveal the following. First, if next-day deliveries cannot be offered 
-for a product then its demand may drop significantly. Fortunately, the implications will be less severe for 
-products that generate  higher  profits. In particular,  it is anticipated that  the drop in sales  for the three 
-product  classes  will  be  20%,  30%,  and  50%,  respectively.  Second,  offering  different  delivery  times  for 
-product  couples  with  highly  correlated  demands  may  have  adverse  effects  on  sales.  For  instance,  a 
-customer may refrain from ordering a high-value mobile device just because a complementary accessory 
-has a longer delivery time. Besides, even if the customer places an order, the products have to be shipped 
-separately, thereby increasing the delivery costs. Because it is hard to anticipate the actual impact of such 
-incidents,  it  has  been  decided  that  the  allocation  decisions  should  obey  the  following  rule.  Consider  a 
-product couple such that the correlation coefficient between their demands is larger than or equal to 0.6 
-and the first product belongs to a higher class than the second product. The rule suggests that, if we store 
-the first product at the current warehouse, then we should also store the second product at the current 
-warehouse.
-
-Tackling the allocation problem 
-
-The experts in Belsimpel consider two options to tackle the allocation problem. First, the problem can be 
-addressed by the following simple heuristic idea. We prioritize products based on some measure.  Then, 
-we place products (along with those whose demands are highly correlated) in the current warehouse in 
-decreasing order of priority, until we have no storage space left. Second, it can be possible to model the 
-allocation  problem  as  an  integer  programming  problem.  This  will  be  a  variant  of  the  well-known  0-1 
-Knapsack problem2, with additional constraints to handle correlated product couples. For all methods, the 
-aim will be to minimize the daily profit loss. This is the sum of daily profit losses of products that are not 
-stored in the current warehouse.
-
 1. For  all methods,  the most  critical  parameter  will  be  the  average  daily  profit  loss  per  product—
 which will be realized in case the product cannot be stored in the current warehouse. Compute 
 this value for each product.  
@@ -372,7 +338,6 @@ allocation problem on hand.
 average daily profit losses on a small table.  
 6. Briefly comment on your findings
 """
-print("Addressing the allocation problem")
 print("Looking for the optimal product warehouse allocation, please wait...")
 pickup_boxes_theshold = 960
 current_pickup_boxes_in_storage = 0
@@ -407,8 +372,11 @@ def enough_storage(threshold, current_storage, product_pickup_boxes):
 df_products["pickup_boxes"] = df_stock["pickup_boxes"]
 [compute_profit_loss(index) for index in df_products.index]
 
+#Ranking 
+# https://vitalflux.com/ranking-algorithms-types-concepts-examples/#:~:text=A%20ranking%20algorithm%20is%20a,dataset%20according%20to%20some%20criterion.
+# https://dataindependent.com/pandas/pandas-rank-rank-your-data-pd-df-rank/
 df_products["ratio"] = np.abs(df_products["average_daily_profit_loss"] / df_products["pickup_boxes"])
-df_products["rank_by_profit_loss"] = df_products["average_daily_profit_loss"].rank(ascending=True, method="first") # ranking based on the highest profit loss (so this is the lowest number)
+df_products["rank_by_profit_loss"] = df_products["average_daily_profit_loss"].rank(ascending=True, method="first") # ranking based on the highest profit loss (so this is the lowest negative number)
 df_products["rank_by_ratio"] = df_products["ratio"].rank(ascending=False, method="first")
 
 df_ranked_by_profit_loss = df_products.sort_values(by="rank_by_profit_loss")
@@ -416,30 +384,31 @@ df_ranked_by_ratio = df_products.sort_values(by="rank_by_ratio")
 
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
+df_scenarios = pd.DataFrame([{"total_avg_daily_profit_losses_1": 0, "total_avg_daily_profit_losses_ratio": 0, "total_avg_daily_profit_losses_knapsack": 0}])
 
-for index, row in df_ranked_by_profit_loss.iterrows():
+def optimize_by_rank(index):
+    global pickup_boxes_theshold
+    global current_pickup_boxes_in_storage
+    row = df_ranked_by_profit_loss.loc[index, :]
     product_id = row["product_id"]
     # check product already stored in one of warehouses
     if product_id in df_current_warehouse["product_id"].values or product_id in df_rental_warehouse["product_id"].values:
-        continue 
+        return 
     # get product couples by current product_id
     couples_by_id = get_product_couples_by_product_id(product_id) # get all the couples
     # if current warehouse storage is full, store in the rental warehouse
     if pickup_boxes_theshold == current_pickup_boxes_in_storage:
         df_rental_warehouse.loc[len(df_rental_warehouse), :] = row
-        # add product couples, if there are any coupled to the current row[product_id]
         if len(couples_by_id) > 0:
             for couple in couples_by_id:
-                # get the other product_id
                 other_couple_id = get_other_couple_id(product_id, couple)
-                # add the other product_id couple to the warehouse
                 df_rental_warehouse.loc[len(df_rental_warehouse), :] = df_ranked_by_profit_loss[df_ranked_by_profit_loss["product_id"] == other_couple_id].squeeze()
-                current_product_couples.remove(couple) #Now the couple has been allocated remove them from the current couples list
+                current_product_couples.remove(couple) # Now the couple has been allocated remove them from the current couples list
     else: 
-        df_current_warehouse.loc[len(df_current_warehouse)] = row
         if not enough_storage(pickup_boxes_theshold, current_pickup_boxes_in_storage, row["pickup_boxes"]):
             print("Not enough storage for product", row["product_id"], "need", row["pickup_boxes"], "pickup boxes, but only", pickup_boxes_theshold - current_pickup_boxes_in_storage, "pickup boxes are left")
-            continue
+            return
+        df_current_warehouse.loc[len(df_current_warehouse)] = row
         current_pickup_boxes_in_storage += row["pickup_boxes"]
         if len(couples_by_id) > 0:
             for couple in couples_by_id:
@@ -447,41 +416,29 @@ for index, row in df_ranked_by_profit_loss.iterrows():
                 couple_row = df_ranked_by_profit_loss.loc[df_ranked_by_profit_loss["product_id"] == other_couple_id]
                 if not enough_storage(pickup_boxes_theshold, current_pickup_boxes_in_storage, couple_row["pickup_boxes"].values[0]):
                     print("Not enough storage for product", couple_row["product_id"].values[0], "need", couple_row["pickup_boxes"].values[0], "pickup boxes, but only", pickup_boxes_theshold - current_pickup_boxes_in_storage, "pickup boxes are left")
-                    continue
+                    return
                 df_current_warehouse.loc[len(df_current_warehouse), :] = couple_row.squeeze()
                 current_product_couples.remove(couple)
                 current_pickup_boxes_in_storage += couple_row["pickup_boxes"].values[0]
+# 2.2 heuristic by highest profit loss
+print("Run ranking heuristic by highest profit loss")
+[optimize_by_rank(index) for index in df_ranked_by_profit_loss.index]
+df_scenarios["total_avg_daily_profit_losses_1"] = df_rental_warehouse["average_daily_profit_loss"].sum()
 
-print(df_current_warehouse)
-print(df_rental_warehouse)
+#Reinitialize variables to run the ratio scenario
+df_current_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
+df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
+current_pickup_boxes_in_storage = 0
+current_product_couples = product_couples
 
-
-
-
-
-
-    # global df_current_warehouse
-    # global df_rental_warehouse
-    # product = df_ranked_by_profit_loss.loc[index, :]
-
-    # if 
-    # if storage_theshold == product_count:
-    #     df_rental_warehouse.loc[len(df_rental_warehouse)] = product
-    #     return
-    
-
-        
-
-
-# print(df_ranked_by_profit_loss)
-# print(df_ranked_by_ratio)
+# 2.3 heuristic by highest profit loss
+print("Run ranking heuristic by ratio of the average daily profit loss / number of pick-up boxes")
+[optimize_by_rank(index) for index in df_ranked_by_ratio.index]
+df_scenarios["total_avg_daily_profit_losses_ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum()
 
 
 
 
-#Ranking 
-# https://vitalflux.com/ranking-algorithms-types-concepts-examples/#:~:text=A%20ranking%20algorithm%20is%20a,dataset%20according%20to%20some%20criterion.
-# https://dataindependent.com/pandas/pandas-rank-rank-your-data-pd-df-rank/
 
 
 
