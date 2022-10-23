@@ -1,5 +1,3 @@
-import json
-from tabnanny import check
 from utils.encoding import get_encoding_from_file
 from db import Db
 from graphs import Graphs
@@ -10,6 +8,7 @@ import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
+from gurobipy import Model, GRB, multidict, quicksum
 
 db = Db()
 graphs = Graphs()
@@ -107,8 +106,6 @@ print("please wait... I am computing")
 # use list comprension with an for faster iteration source: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas 
 [compute_daily_demand_on_product_id(index, product_id) for index, product_id in zip(df_products.index, df_products["product_id"])]
 
-total_time = datetime.datetime.now() - start_time
-print("Computing is finished and it took", total_time)
 df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
@@ -315,8 +312,8 @@ def create_product_couples(index, corr):
 
 [create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
 print("Found out of the", totalnr_of_highly_corr, "highly correlated products", len(product_couples), "product couples") 
-# print(product_couples)
-
+print(product_couples)
+print("Replot the correlation matrix masking the product couples")
 cmap = sns.color_palette("coolwarm", as_cmap=True)
 g = sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
 g.set_facecolor('xkcd:black')
@@ -341,7 +338,7 @@ average daily profit losses on a small table.
 print("Looking for the optimal product warehouse allocation, please wait...")
 pickup_boxes_theshold = 960
 current_pickup_boxes_in_storage = 0
-current_product_couples = product_couples
+current_product_couples = product_couples.copy()
 
 def compute_profit_loss(index):
     product_class = df_products.at[index, "product_class"]
@@ -429,18 +426,64 @@ df_scenarios["total_avg_daily_profit_losses_1"] = df_rental_warehouse["average_d
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
 current_pickup_boxes_in_storage = 0
-current_product_couples = product_couples
+current_product_couples = product_couples.copy()
 
 # 2.3 heuristic by highest profit loss
 print("Run ranking heuristic by ratio of the average daily profit loss / number of pick-up boxes")
 [optimize_by_rank(index) for index in df_ranked_by_ratio.index]
 df_scenarios["total_avg_daily_profit_losses_ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum()
 
+# 2.4 solving the integer problem
+# sources: 
+# https://www.youtube.com/watch?v=0AeGqnM04yc 
+# https://www.youtube.com/watch?v=t6_Dpq7L3YQ
+# https://www.gurobi.com/documentation/9.5/refman/index.html
 
+print("Solve the 0-1 Knapsack integer problem")
+w = df_products["pickup_boxes"].to_list() # weight of item / corresponding number of pickup boxes
+v = df_products["average_daily_profit_loss"].to_list() # value of item / or loss in this case
+C = pickup_boxes_theshold # max allocation 960 pickup boxes
+N = len(df_products) # number of products
 
+knapsack_model = Model("knapsack")
 
+x = knapsack_model.addVars(N, vtype=GRB.BINARY, name="product")
+knapsack_model.update()
 
+objective = quicksum(v[i]*x[i] for i in range(N))
+knapsack_model.setObjective(objective, GRB.MINIMIZE) # minimize the profit loss
 
+knapsack_model.addConstr(quicksum(w[i]*x[i] for i in range(N)) == C, "weight")
+
+# add product couple constraints
+# https://support.gurobi.com/hc/en-us/community/posts/4407939434385-Multi-Knapsack-Problem-with-conditional-constraint
+product_couple_dict = {}
+for couple in product_couples:
+    fp = df_products[df_products["product_id"] == couple[0]].index.values[0]
+    sp = df_products[df_products["product_id"] == couple[1]].index.values[0]
+    coupled_vars = (fp, sp)
+    product_couple_dict[coupled_vars] = 1
+
+rel, val = multidict(product_couple_dict)
+
+knapsack_model.addConstrs((x.sum(i, "*") <= x.sum(i2, "*") for i, i2 in rel), name="product_couple")
+
+knapsack_model.optimize()
+
+allocated = [i for i in range(N) if x[i].X > 0.5] 
+not_allocated = [i for i in range(N) if x[i].X < 0.5]   
+print(len(allocated), "products are allocated to the current warehouse")     
+print(len(not_allocated), "products are allocated to the rental warehouse")
+df_scenarios["total_avg_daily_profit_losses_knapsack"] = df_products.loc[not_allocated, "average_daily_profit_loss"].sum()
+
+df_scenarios.plot(kind="bar", width=1)
+plt.title("Allocation heuristics overview")
+plt.legend(labels=["profit losses", "ratio", "knapsack"])
+plt.savefig(os.path.join(sys.path[0], "plots", "overview_heuristics.png"))
+plt.close()
+
+total_time = datetime.datetime.now() - start_time
+print("Computing is finished and it took", total_time)
 
 
 
