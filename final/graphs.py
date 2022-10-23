@@ -1,7 +1,6 @@
 import os
 import sys
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 plot_folder_path = os.path.join(sys.path[0], "plots")
@@ -10,7 +9,6 @@ class Graphs:
     def __init__(self):
         if os.path.isdir(plot_folder_path) == False:
             os.makedirs(plot_folder_path)
-
 
     def plot_error_bar(self, x_array, y_array, error_array, xlabel, ylabel, plot_title, image_title, ecolor=None):
         x = np.arange(0, len(x_array), 1)
@@ -48,7 +46,6 @@ class Graphs:
             label_class = classes[index]
             plt.bar(x_class, y_class, 0.4, label=label_class)
 
-
         plt.xticks(X_axis, classes)
         plt.xlabel("Product classes")
         plt.ylabel("Number of products")
@@ -65,7 +62,6 @@ class Graphs:
             y_class = sum(df)
             label_class = classes[index]
             plt.bar(x_class, y_class, 0.4, label=label_class)
-
 
         plt.xticks(X_axis, classes)
         plt.xlabel("Product classes")

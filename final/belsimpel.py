@@ -381,7 +381,7 @@ df_ranked_by_ratio = df_products.sort_values(by="rank_by_ratio")
 
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
-df_scenarios = pd.DataFrame([{"total_avg_daily_profit_losses_1": 0, "total_avg_daily_profit_losses_ratio": 0, "total_avg_daily_profit_losses_knapsack": 0}])
+df_scenarios = pd.DataFrame()
 
 def optimize_by_rank(index):
     global pickup_boxes_theshold
@@ -420,18 +420,19 @@ def optimize_by_rank(index):
 # 2.2 heuristic by highest profit loss
 print("Run ranking heuristic by highest profit loss")
 [optimize_by_rank(index) for index in df_ranked_by_profit_loss.index]
-df_scenarios["total_avg_daily_profit_losses_1"] = df_rental_warehouse["average_daily_profit_loss"].sum()
+df_scenarios.loc[0, "avg"] = df_rental_warehouse["average_daily_profit_loss"].sum()
 
 #Reinitialize variables to run the ratio scenario
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
+
 current_pickup_boxes_in_storage = 0
 current_product_couples = product_couples.copy()
 
 # 2.3 heuristic by highest profit loss
 print("Run ranking heuristic by ratio of the average daily profit loss / number of pick-up boxes")
 [optimize_by_rank(index) for index in df_ranked_by_ratio.index]
-df_scenarios["total_avg_daily_profit_losses_ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum()
+df_scenarios.loc[0, "ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum()
 
 # 2.4 solving the integer problem
 # sources: 
@@ -470,16 +471,15 @@ knapsack_model.addConstrs((x.sum(i, "*") <= x.sum(i2, "*") for i, i2 in rel), na
 
 knapsack_model.optimize()
 
-allocated = [i for i in range(N) if x[i].X > 0.5] 
 not_allocated = [i for i in range(N) if x[i].X < 0.5]   
-print(len(allocated), "products are allocated to the current warehouse")     
-print(len(not_allocated), "products are allocated to the rental warehouse")
-df_scenarios["total_avg_daily_profit_losses_knapsack"] = df_products.loc[not_allocated, "average_daily_profit_loss"].sum()
+df_scenarios.loc[0, "knapsack"] = df_products.loc[not_allocated, "average_daily_profit_loss"].sum()
 
-df_scenarios.plot(kind="bar", width=1)
-plt.title("Allocation heuristics overview")
-plt.legend(labels=["profit losses", "ratio", "knapsack"])
-plt.savefig(os.path.join(sys.path[0], "plots", "overview_heuristics.png"))
+fig, ax = plt.subplots()
+sns.barplot(df_scenarios)
+ax.bar_label(ax.containers[-1], padding=0.5, fmt='%.2f,-')
+ax.set_title("Allocation heuristics overview")
+ax.set_xlabel("Heuristic results")
+fig.savefig(os.path.join(sys.path[0], "plots", "overview_heuristics.png"))
 plt.close()
 
 total_time = datetime.datetime.now() - start_time
