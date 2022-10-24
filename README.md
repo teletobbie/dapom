@@ -11,8 +11,8 @@ In order to run this codebase the following requirements have to be satisfied.
 ## For running
 In order to run the codebase follow these directions:
 1. `git clone` the project or download it via this page
-2. Run `pip install -r requirements.txt` in the root project directory /dapom
+2. Run `pip install -r requirements.txt` in the root project directory `/dapom`
 3. Have elasticsearch server running (see prerequisites point 3)
 
 ### Extra note 
-For running the final assignment change the secret.csv file in /dapom/final/utils folder to your elastic username and password. After this, you can run the final by starting the `belsimpel.py`
+For running the final assignment change the secret.csv file in `/dapom/final/utils` folder to your elastic username and password. After this, you can run the final by starting the `belsimpel.py`
