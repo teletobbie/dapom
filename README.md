@@ -15,4 +15,4 @@ In order to run the codebase follow these directions:
 3. Have elasticsearch server running (see prerequisites point 3)
 
 ### Extra note 
-For running the final assignment change the `secret.csv` file in `/dapom/final/utils` folder to your elastic username and password. After this, you can run the final by starting the `belsimpel.py`
+For running the final assignment change the in `secret.csv` file in `/dapom/final/utils` folder the username and password to your elastic search username and password. After this, you can run the final by starting `belsimpel.py`
