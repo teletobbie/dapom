@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
 from gurobipy import Model, GRB, multidict, quicksum
+import math
 
 db = Db()
 graphs = Graphs()
@@ -16,7 +17,9 @@ index_name = "belsimpel"
 document_file_path = os.path.join(sys.path[0], "data_dapom.csv")
 buffer_size = 5000
 
+# connect to elastic
 es = db.connect()
+# import the data from the .csv file in needed
 db.create_index_and_documents(es, index_name, document_file_path, buffer_size)
 
 file_sizes = os.path.join(sys.path[0], "data_dapom_sizes.csv")
@@ -57,6 +60,7 @@ total_days = day_count["aggregations"]["unique_days_count"]["value"]
 # step 1.14
 daily_demand_per_product = np.zeros((len(df_products) + 1, total_days))
 
+# compute the daily demand per product 
 def compute_daily_demand_on_product_id(index, product_id):
 
     def add_daily_demand_per_product(product_id, day, amount_sold):
@@ -98,7 +102,6 @@ def compute_daily_demand_on_product_id(index, product_id):
     # 1.14: add the key (day) and doc_count (sold) to a destinct for the correlation matrix
     [add_daily_demand_per_product(product_id, day, amount_sold) for day, amount_sold in df_demand_per_product_per_day[["key","doc_count"]].to_numpy(dtype=int)]
 
-
 start_time = datetime.datetime.now()
 print("Compute basic stats of the daily demand for each of the", len(df_products), "unique products sold over", total_days, "days")
 print("Starting at", start_time)
@@ -106,14 +109,14 @@ print("please wait... I am computing")
 # use list comprension with an for faster iteration source: https://stackoverflow.com/questions/16476924/how-to-iterate-over-rows-in-a-dataframe-in-pandas 
 [compute_daily_demand_on_product_id(index, product_id) for index, product_id in zip(df_products.index, df_products["product_id"])]
 
+# compute the margins, product volume and average daily profit
 df_products["profit_margin"] = df_margins["margin"]
 df_products["product_volume_cm3"] = df_sizes["length"] * df_sizes["width"] * df_sizes["height"]
 df_products["average_daily_profit"] = df_products["average_daily_demand"] * df_products["profit_margin"]
 
+# create the error bar
 print("Plotting daily demand")
-
 df_error_bar = df_products[["product_id", "average_daily_demand", "std_average_daily_demand"]].sort_values(by="average_daily_demand", ascending=False)
-
 graphs.plot_error_bar(
     df_error_bar["product_id"], 
     df_error_bar["average_daily_demand"], 
@@ -125,7 +128,7 @@ graphs.plot_error_bar(
     "#B45C1F"
 )
 
-# TODO: set three classes of products based on the average daily profit (is this correct?)
+# plot the histogram of daily profits
 bins = np.histogram_bin_edges(df_products["average_daily_profit"], bins='auto') #Get de proper amount of bins https://numpy.org/doc/stable/reference/generated/numpy.histogram_bin_edges.html
 graphs.plot_hist(
     x_array=df_products["average_daily_profit"],
@@ -136,6 +139,7 @@ graphs.plot_hist(
     bins=bins
 )
 
+# plot the histogram of product volumes
 bins = np.histogram_bin_edges(df_products["product_volume_cm3"], bins="auto")
 graphs.plot_hist(
     x_array = df_products["product_volume_cm3"], 
@@ -165,10 +169,15 @@ of the product classes so that they are visible.
 # https://stackoverflow.com/questions/38936854/categorize-data-in-a-column-in-dataframe 
 # https://pandas.pydata.org/docs/reference/api/pandas.qcut.html
 print("Create product classes and plots")
+# cut the dataframe based on low to high average daily profit percentages (0%-50%, 50%-80%, 80%-100%)
 df_products["product_class"] = pd.qcut(df_products["average_daily_profit"], [0, .50, .80, 1.], labels=["50%", "80%", "100%"])
 df_low = df_products[df_products["product_class"].str.contains("50%")]
 df_medium = df_products[df_products["product_class"].str.contains("80%")]
 df_high = df_products[df_products["product_class"].str.contains("100%")]
+
+print("Amount of products in class 50%", len(df_low))
+print("Amount of products in class 30%", len(df_medium))
+print("Amount of products in class 20%", len(df_high))
 
 product_classes = ["last 50%", 'mid 30%', 'top 20%']
 dfs_product_classes = [df_low, df_medium, df_high]
@@ -194,23 +203,10 @@ boundary_avg_d_profits = [
     df_high["average_daily_profit"].max()
 ]
 
-# colors_based_avg_profit = ["#B45C1F" if avg in boundary_products else "#1F77B4" for avg in df_products_sorted_on_profit_desc["average_daily_profit"].to_list()]
-# boundary_products = df_products_sorted_on_profit_desc.loc[df_products_sorted_on_profit_desc["average_daily_profit"].isin(boundary_avg_d_profits)]["product_id"].to_list()
-
 x = np.arange(1, len(df_products_sorted_on_profit_desc) + 1) 
 y = df_products_sorted_on_profit_desc["average_daily_profit"]
 cmap = ["red" if avg in boundary_avg_d_profits else "#17becf" for avg in y]
-
 barlist = plt.bar(x, y, color=cmap, edgecolor=cmap, width=1.5)
-
-# for bp in boundary_products:
-#     #source: https://stackoverflow.com/questions/18973404/setting-different-bar-color-in-matplotlib-python
-#     # barlist[bp].set_capstyle("round")
-#     # barlist[bp].set_label("Product class boundaries")
-#     # barlist[bp].set_color("red")
-#     # barlist[bp].set_edgecolor("red")
-#     barlist[bp].set_alpha(1) 
-
 plt.xlabel("Products")
 plt.ylabel("Profits")
 plt.title("Average daily profits of each product")
@@ -239,16 +235,17 @@ df_stock = df_products[["product_id", "average_daily_demand", "std_average_daily
 df_stock = df_stock.assign(avg_daily_demand_repln_intv=replenishment_interval * df_stock["average_daily_demand"])
 df_stock = df_stock.assign(avg_std_daily_demand_repln_intv=np.sqrt(replenishment_interval * df_stock["std_average_daily_demand"]))
 
+# compute the base stock per product class 
 def compute_base_stock(index):
     product_class = df_stock.at[index, "product_class"]
     avg_daily_demand_repln_intv = df_stock.at[index, "avg_daily_demand_repln_intv"]
     avg_std_daily_demand_repln_intv = df_stock.at[index, "avg_std_daily_demand_repln_intv"]
     if product_class == "50%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (low_50_z_score * avg_std_daily_demand_repln_intv)
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (low_50_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
     elif product_class == "80%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (mid_30_z_score * avg_std_daily_demand_repln_intv)
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (mid_30_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
     elif product_class == "100%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * avg_std_daily_demand_repln_intv)
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
 
 [compute_base_stock(index) for index in df_stock.index]
 
@@ -257,7 +254,6 @@ df_stock = df_stock.assign(pickup_boxes=np.ceil((df_stock["base_stock"] * df_sto
 
 bins = np.histogram_bin_edges(df_stock["pickup_boxes"], bins="auto")
 graphs.plot_hist(x_array=df_stock["pickup_boxes"], xlabel="Number of pickup boxes", ylabel="Amount of products", plot_title="Number of pick-up boxes required for each product", image_title="number_of_pickup_boxes", bins=bins)
-
 
 """
 Identify the product couples with highly correlated demands. 
@@ -288,6 +284,7 @@ plt.close()
 product_couples = []
 totalnr_of_highly_corr = 0
 #source: https://stackoverflow.com/questions/60162118/how-to-get-nth-max-correlation-coefficient-and-its-index-by-using-numpy
+# create product couples based on each specific product correlation 
 def create_product_couples(index, corr):
     global totalnr_of_highly_corr
     def is_first_product_a_higher_class(first_class_percentage : str, second_class_percentage : str):
@@ -295,33 +292,39 @@ def create_product_couples(index, corr):
         second_class = int(second_class_percentage.split("%")[0])
         if first_class > second_class: return True
         else: return False
-
+    # flatten the array
     flat = np.array(corr).flatten()
-    #get all highly correlated products
+    #get all highly correlated products 
     result = np.where(flat >= 0.6)[0] #to get the the "natural" answer of numpy.where, we have to do [0] source: https://stackoverflow.com/questions/50646102/what-is-the-purpose-of-numpy-where-returning-a-tuple
+    # check if there are highly correlated products indexes that are correlated to corr of the current product
     if len(result) > 1: 
         highly_correlated_indexes = np.array(result)
         totalnr_of_highly_corr = totalnr_of_highly_corr + len(highly_correlated_indexes)
-        highly_correlated_indexes = highly_correlated_indexes[highly_correlated_indexes != index] #This removes the product index that is correlated to itself (the perfect 1.0 index)
-        df_first_product = df_products.loc[df_products.index == index,:] 
+        highly_correlated_indexes = highly_correlated_indexes[highly_correlated_indexes != index] # This removes the product index that is correlated to itself (the perfect 1.0 index)
+        df_first_product = df_products.loc[df_products.index == index,:] # find the first product in df_products
         for correlated_index in highly_correlated_indexes: 
-            df_second_product = df_products.loc[df_products.index == correlated_index,:] 
+            df_second_product = df_products.loc[df_products.index == correlated_index,:] # find its pair in df_products
+            # if df_first_product is of an higher class append the product ids of itself and its pair. 
             if is_first_product_a_higher_class(df_first_product["product_class"].values[0], df_second_product["product_class"].values[0]):
-                corr_matrix[index, correlated_index] = np.nan
                 product_couples.append((df_first_product["product_id"].values[0], df_second_product["product_id"].values[0]))
 
+# loop over the correlation matrix and per iteration execute the create_product_couples() function  
 [create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
 print("Found out of the", totalnr_of_highly_corr, "highly correlated products", len(product_couples), "product couples") 
 print(product_couples)
-print("Replot the correlation matrix masking the product couples")
+print("Replot the correlation matrix marking the product couples")
+
+# Replot the correlation matrix, but now with marked product pairs
 cmap = sns.color_palette("coolwarm", as_cmap=True)
-g = sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
-g.set_facecolor('xkcd:black')
-plt.title("Corr. matrix between the average daily demands of products masked")
+sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
+for couple in product_couples:
+    plt.scatter(x=couple[0], y=couple[1], color="grey")
+plt.title("Corr. matrix between the average daily demands of products marked")
 plt.savefig(os.path.join(sys.path[0], "plots", "corr_matrix_avg_daily_demand_masked.png"))
 plt.close()
 
 """
+Step 2 Optimization
 1. For  all methods,  the most  critical  parameter  will  be  the  average  daily  profit  loss  per  product—
 which will be realized in case the product cannot be stored in the current warehouse. Compute 
 this value for each product.  
@@ -338,8 +341,10 @@ average daily profit losses on a small table.
 print("Looking for the optimal product warehouse allocation, please wait...")
 pickup_boxes_theshold = 960
 current_pickup_boxes_in_storage = 0
-current_product_couples = product_couples.copy()
+# copy the list in order to not change the current product couples list
+current_product_couples = product_couples.copy() 
 
+# compute the profit loss per product based on product class
 def compute_profit_loss(index):
     product_class = df_products.at[index, "product_class"]
     average_daily_profit = df_products.at[index, "average_daily_profit"]
@@ -355,12 +360,15 @@ def compute_profit_loss(index):
 def get_product_couples_by_product_id(product_id : int):
     return [product_couples_by_id for product_couples_by_id in product_couples if product_couples_by_id[0] == product_id or product_couples_by_id[1] == product_id]
 
+# get the other couples id by 
+# example: if product_id = 1, product_couple=(1,2) returns couple_id = 2
 def get_other_couple_id(product_id : int, product_couple : tuple):
     index_current_couple = product_couple.index(product_id)
     if index_current_couple == 0:
         return product_couple[1]
     return product_couple[0]
 
+# check if there is enough storage in the current warehouse 
 def enough_storage(threshold, current_storage, product_pickup_boxes):
     if threshold - current_storage >= product_pickup_boxes:
         return True
@@ -369,30 +377,34 @@ def enough_storage(threshold, current_storage, product_pickup_boxes):
 df_products["pickup_boxes"] = df_stock["pickup_boxes"]
 [compute_profit_loss(index) for index in df_products.index]
 
-#Ranking 
+# Use pandas.rank to create an ranking based on an column 
 # https://vitalflux.com/ranking-algorithms-types-concepts-examples/#:~:text=A%20ranking%20algorithm%20is%20a,dataset%20according%20to%20some%20criterion.
 # https://dataindependent.com/pandas/pandas-rank-rank-your-data-pd-df-rank/
+# create an ratio by dividing the average daily profit loss column by pickup_boxes column, and convert the new column to absolute values 
 df_products["ratio"] = np.abs(df_products["average_daily_profit_loss"] / df_products["pickup_boxes"])
+# create two columns using pandas.rank, where the ranking is based on the average daily profit loss and ratio
 df_products["rank_by_profit_loss"] = df_products["average_daily_profit_loss"].rank(ascending=True, method="first") # ranking based on the highest profit loss (so this is the lowest negative number)
 df_products["rank_by_ratio"] = df_products["ratio"].rank(ascending=False, method="first")
 
+# sort the ranks in df_products into two new dataframes
 df_ranked_by_profit_loss = df_products.sort_values(by="rank_by_profit_loss")
 df_ranked_by_ratio = df_products.sort_values(by="rank_by_ratio")
 
+# initialize the warehouses for the first heuristic of ranking by profit loss
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_profit_loss.columns)
 df_scenarios = pd.DataFrame()
 
 def optimize_by_rank(index):
-    global pickup_boxes_theshold
-    global current_pickup_boxes_in_storage
-    row = df_ranked_by_profit_loss.loc[index, :]
+    global pickup_boxes_theshold # == 960
+    global current_pickup_boxes_in_storage # == 0 
+    row = df_ranked_by_profit_loss.loc[index, :] # the row based on index starting with the first product that has rank 1
     product_id = row["product_id"]
-    # check product already stored in one of warehouses
+    # check product already stored in one of warehouses, checking both product_id columns per df
     if product_id in df_current_warehouse["product_id"].values or product_id in df_rental_warehouse["product_id"].values:
         return 
     # get product couples by current product_id
-    couples_by_id = get_product_couples_by_product_id(product_id) # get all the couples
+    couples_by_id = get_product_couples_by_product_id(product_id) 
     # if current warehouse storage is full, store in the rental warehouse
     if pickup_boxes_theshold == current_pickup_boxes_in_storage:
         df_rental_warehouse.loc[len(df_rental_warehouse), :] = row
@@ -402,59 +414,82 @@ def optimize_by_rank(index):
                 df_rental_warehouse.loc[len(df_rental_warehouse), :] = df_ranked_by_profit_loss[df_ranked_by_profit_loss["product_id"] == other_couple_id].squeeze()
                 current_product_couples.remove(couple) # Now the couple has been allocated remove them from the current couples list
     else: 
+        allocated_in_the_warehouse_indexes = [] # used to keep track of current stored products of this iteratation
+        allocated_pickup_boxes_for_product = 0 # used to keep track current pickup boxes used of this iteratation
+        # if not enough storage store the product in the rental warehouse and return the function
         if not enough_storage(pickup_boxes_theshold, current_pickup_boxes_in_storage, row["pickup_boxes"]):
-            print("Not enough storage for product", row["product_id"], "need", row["pickup_boxes"], "pickup boxes, but only", pickup_boxes_theshold - current_pickup_boxes_in_storage, "pickup boxes are left")
+            df_rental_warehouse.loc[len(df_rental_warehouse), :] = row
             return
-        df_current_warehouse.loc[len(df_current_warehouse)] = row
+        # get the next index of the current warehouse
+        next_free_index_in_warehouse = len(df_current_warehouse) 
+        # allocated the product to the current warehouse
+        df_current_warehouse.loc[next_free_index_in_warehouse] = row 
+        # add the index of the current allocated row to the list to keep track 
+        allocated_in_the_warehouse_indexes.append(next_free_index_in_warehouse)
+        # increment the current storage and tracking by 1
         current_pickup_boxes_in_storage += row["pickup_boxes"]
+        allocated_pickup_boxes_for_product += row["pickup_boxes"]
+        # check if there are product couples
         if len(couples_by_id) > 0:
             for couple in couples_by_id:
+                # get the other product by current iteratation product_id
                 other_couple_id = get_other_couple_id(product_id, couple)
+                # get the couple
                 couple_row = df_ranked_by_profit_loss.loc[df_ranked_by_profit_loss["product_id"] == other_couple_id]
                 if not enough_storage(pickup_boxes_theshold, current_pickup_boxes_in_storage, couple_row["pickup_boxes"].values[0]):
-                    print("Not enough storage for product", couple_row["product_id"].values[0], "need", couple_row["pickup_boxes"].values[0], "pickup boxes, but only", pickup_boxes_theshold - current_pickup_boxes_in_storage, "pickup boxes are left")
-                    return
-                df_current_warehouse.loc[len(df_current_warehouse), :] = couple_row.squeeze()
+                    print("Not enough storage for product", couple_row["product_id"].values[0], "coupled to", row["product_id"], "cancel allocation!")
+                    # drop all looped through couples including the current row from the current warehouse
+                    df_current_warehouse.drop(allocated_in_the_warehouse_indexes)
+                    # free up allocated storage space again 
+                    current_pickup_boxes_in_storage -= allocated_pickup_boxes_for_product
+                    return # exit the function 
+                next_free_index_in_warehouse = len(df_current_warehouse)
+                df_current_warehouse.loc[next_free_index_in_warehouse, :] = couple_row.squeeze()
+                allocated_in_the_warehouse_indexes.append(next_free_index_in_warehouse)
                 current_product_couples.remove(couple)
                 current_pickup_boxes_in_storage += couple_row["pickup_boxes"].values[0]
+
 # 2.2 heuristic by highest profit loss
 print("Run ranking heuristic by highest profit loss")
 [optimize_by_rank(index) for index in df_ranked_by_profit_loss.index]
-df_scenarios.loc[0, "avg"] = df_rental_warehouse["average_daily_profit_loss"].sum()
+print(len(df_current_warehouse), "products are allocated to the current warehouse") 
+print(len(df_rental_warehouse), "products are allocated to the rental warehouse") 
+df_scenarios.loc[0, "avg"] = df_rental_warehouse["average_daily_profit_loss"].sum() # add avg result
 
-#Reinitialize variables to run the ratio scenario
+# Reinitialize variables to run the ratio scenario next
 df_current_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
 df_rental_warehouse = pd.DataFrame(columns=df_ranked_by_ratio.columns)
-
 current_pickup_boxes_in_storage = 0
 current_product_couples = product_couples.copy()
 
-# 2.3 heuristic by highest profit loss
+# 2.3 heuristic by highest profit loss, running the same method in order to 
 print("Run ranking heuristic by ratio of the average daily profit loss / number of pick-up boxes")
 [optimize_by_rank(index) for index in df_ranked_by_ratio.index]
-df_scenarios.loc[0, "ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum()
+print(len(df_current_warehouse), "products are allocated to the current warehouse") 
+print(len(df_rental_warehouse), "products are allocated to the rental warehouse") 
+df_scenarios.loc[0, "ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum() # add ratio result
 
 # 2.4 solving the integer problem
 # sources: 
 # https://www.youtube.com/watch?v=0AeGqnM04yc 
 # https://www.youtube.com/watch?v=t6_Dpq7L3YQ
 # https://www.gurobi.com/documentation/9.5/refman/index.html
-
 print("Solve the 0-1 Knapsack integer problem")
 w = df_products["pickup_boxes"].to_list() # weight of item / corresponding number of pickup boxes
-v = df_products["average_daily_profit_loss"].to_list() # value of item / or loss in this case
+v = df_products["average_daily_profit_loss"].to_list() # value of item / or profit loss in this case
 C = pickup_boxes_theshold # max allocation 960 pickup boxes
 N = len(df_products) # number of products
 
 knapsack_model = Model("knapsack")
 
-x = knapsack_model.addVars(N, vtype=GRB.BINARY, name="product")
+x = knapsack_model.addVars(N, vtype=GRB.BINARY, name="product") # add binary vars 0/1 
 knapsack_model.update()
 
 objective = quicksum(v[i]*x[i] for i in range(N))
-knapsack_model.setObjective(objective, GRB.MINIMIZE) # minimize the profit loss
+knapsack_model.setObjective(objective, GRB.MINIMIZE) # goal: minimize the profit loss
 
-knapsack_model.addConstr(quicksum(w[i]*x[i] for i in range(N)) == C, "weight")
+#The weight of knapsack == 980 (max allocation to the warehouse) should not be exceeded
+knapsack_model.addConstr(quicksum(w[i]*x[i] for i in range(N)) <= C, "weight") 
 
 # add product couple constraints
 # https://support.gurobi.com/hc/en-us/community/posts/4407939434385-Multi-Knapsack-Problem-with-conditional-constraint
@@ -466,12 +501,16 @@ for couple in product_couples:
     product_couple_dict[coupled_vars] = 1
 
 rel, val = multidict(product_couple_dict)
-
+# product couple represtation: (x1, x2) = 1
+# the sum of right side of the tuple and the left de side of the tuple must be equal
 knapsack_model.addConstrs((x.sum(i, "*") <= x.sum(i2, "*") for i, i2 in rel), name="product_couple")
 
 knapsack_model.optimize()
 
-not_allocated = [i for i in range(N) if x[i].X < 0.5]   
+allocated = [i for i in range(N) if x[i].X > 0.5] 
+not_allocated = [i for i in range(N) if x[i].X < 0.5]  
+print(len(allocated), "products are allocated to the current warehouse") 
+print(len(not_allocated), "products are allocated to the rental warehouse") 
 df_scenarios.loc[0, "knapsack"] = df_products.loc[not_allocated, "average_daily_profit_loss"].sum()
 
 fig, ax = plt.subplots()
@@ -479,16 +518,9 @@ sns.barplot(df_scenarios)
 ax.bar_label(ax.containers[-1], padding=0.5, fmt='%.2f,-')
 ax.set_title("Allocation heuristics overview")
 ax.set_xlabel("Heuristic results")
+ax.set_ylabel("Profit losses")
 fig.savefig(os.path.join(sys.path[0], "plots", "overview_heuristics.png"))
 plt.close()
 
 total_time = datetime.datetime.now() - start_time
 print("Computing is finished and it took", total_time)
-
-
-
-
-
-
-
-
