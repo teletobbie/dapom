@@ -314,9 +314,8 @@ def create_product_couples(index, corr):
 [create_product_couples(index, corr) for index, corr in enumerate(corr_matrix)]
 print("Found out of the", totalnr_of_highly_corr, "highly correlated products", len(product_couples), "product couples") 
 print(product_couples)
-print("Replot the correlation matrix marking the product couples")
 
-# Replot the correlation matrix, but now with marked product pairs
+print("Replot the correlation matrix marking the product couples")
 cmap = sns.color_palette("coolwarm", as_cmap=True)
 sns.heatmap(corr_matrix, cmap=cmap, cbar=True)
 for couple in product_couples:
@@ -400,6 +399,8 @@ df_scenarios = pd.DataFrame()
 def optimize_by_rank(index):
     global pickup_boxes_theshold # == 960
     global current_pickup_boxes_in_storage # == 0 
+    global df_current_warehouse
+    global df_rental_warehouse
     row = df_products.loc[index, :] # the row based on index starting with the first product that has rank 1
     product_id = row["product_id"]
     # check product already stored in one of warehouses, checking both product_id columns per df
@@ -442,18 +443,24 @@ def optimize_by_rank(index):
                     print("Not enough storage for product", couple_row["product_id"].values[0], "coupled to", row["product_id"], "cancel allocation!")
                     # drop all looped through couples including the current row from the current warehouse
                     df_current_warehouse.drop(allocated_in_the_warehouse_indexes)
+                    df_reallocate = df_products.loc[df_products.index[allocated_in_the_warehouse_indexes]]
+                    df_rental_warehouse = pd.concat([df_rental_warehouse, df_reallocate])
                     # free up allocated storage space again 
                     current_pickup_boxes_in_storage -= allocated_pickup_boxes_for_product
                     return # exit the function 
-                next_free_index_in_warehouse = len(df_current_warehouse)
-                df_current_warehouse.loc[next_free_index_in_warehouse, :] = couple_row.squeeze()
-                allocated_in_the_warehouse_indexes.append(next_free_index_in_warehouse)
-                current_product_couples.remove(couple)
-                current_pickup_boxes_in_storage += couple_row["pickup_boxes"].values[0]
+                else: # we have enough storage for this couple
+                    next_free_index_in_warehouse = len(df_current_warehouse)
+                    df_current_warehouse.loc[next_free_index_in_warehouse, :] = couple_row.squeeze()
+                    allocated_in_the_warehouse_indexes.append(next_free_index_in_warehouse)
+                    current_product_couples.remove(couple)
+                    current_pickup_boxes_in_storage += couple_row["pickup_boxes"].values[0]
+                    allocated_pickup_boxes_for_product += couple_row["pickup_boxes"].values[0]
 
 # 2.2 heuristic by highest profit loss
 print("Run ranking heuristic by highest profit loss")
 [optimize_by_rank(index) for index in df_ranked_by_profit_loss.index]
+df_current_warehouse.drop_duplicates(inplace=True)
+df_rental_warehouse.drop_duplicates(inplace=True)
 print(len(df_current_warehouse), "products are allocated to the current warehouse") 
 print(len(df_rental_warehouse), "products are allocated to the rental warehouse") 
 df_scenarios.loc[0, "avg"] = df_rental_warehouse["average_daily_profit_loss"].sum() # add avg result
@@ -467,6 +474,8 @@ current_product_couples = product_couples.copy()
 # 2.3 heuristic by highest profit loss, running the same method in order to 
 print("Run ranking heuristic by ratio of the average daily profit loss / number of pick-up boxes")
 [optimize_by_rank(index) for index in df_ranked_by_ratio.index]
+df_current_warehouse.drop_duplicates(inplace=True)
+df_rental_warehouse.drop_duplicates(inplace=True)
 print(len(df_current_warehouse), "products are allocated to the current warehouse") 
 print(len(df_rental_warehouse), "products are allocated to the rental warehouse") 
 df_scenarios.loc[0, "ratio"] = df_rental_warehouse["average_daily_profit_loss"].sum() # add ratio result
