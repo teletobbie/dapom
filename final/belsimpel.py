@@ -398,7 +398,7 @@ df_scenarios = pd.DataFrame()
 def optimize_by_rank(index):
     global pickup_boxes_theshold # == 960
     global current_pickup_boxes_in_storage # == 0 
-    row = df_ranked_by_profit_loss.loc[index, :] # the row based on index starting with the first product that has rank 1
+    row = df_products.loc[index, :] # the row based on index starting with the first product that has rank 1
     product_id = row["product_id"]
     # check product already stored in one of warehouses, checking both product_id columns per df
     if product_id in df_current_warehouse["product_id"].values or product_id in df_rental_warehouse["product_id"].values:
@@ -411,7 +411,7 @@ def optimize_by_rank(index):
         if len(couples_by_id) > 0:
             for couple in couples_by_id:
                 other_couple_id = get_other_couple_id(product_id, couple)
-                df_rental_warehouse.loc[len(df_rental_warehouse), :] = df_ranked_by_profit_loss[df_ranked_by_profit_loss["product_id"] == other_couple_id].squeeze()
+                df_rental_warehouse.loc[len(df_rental_warehouse), :] = df_products[df_products["product_id"] == other_couple_id].squeeze()
                 current_product_couples.remove(couple) # Now the couple has been allocated remove them from the current couples list
     else: 
         allocated_in_the_warehouse_indexes = [] # used to keep track of current stored products of this iteratation
@@ -435,7 +435,7 @@ def optimize_by_rank(index):
                 # get the other product by current iteratation product_id
                 other_couple_id = get_other_couple_id(product_id, couple)
                 # get the couple
-                couple_row = df_ranked_by_profit_loss.loc[df_ranked_by_profit_loss["product_id"] == other_couple_id]
+                couple_row = df_products.loc[df_products["product_id"] == other_couple_id]
                 if not enough_storage(pickup_boxes_theshold, current_pickup_boxes_in_storage, couple_row["pickup_boxes"].values[0]):
                     print("Not enough storage for product", couple_row["product_id"].values[0], "coupled to", row["product_id"], "cancel allocation!")
                     # drop all looped through couples including the current row from the current warehouse
