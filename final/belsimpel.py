@@ -232,20 +232,22 @@ top_20_z_score = 0.90
 
 df_stock = df_products[["product_id", "average_daily_demand", "std_average_daily_demand", "product_volume_cm3", "product_class"]]
 # use assign in order to avoid SettingWithCopyWarning warning: https://www.machinelearningplus.com/pandas/pandas-add-column/ 
+# compute average demand based on the replenishment interval using Tμ
 df_stock = df_stock.assign(avg_daily_demand_repln_intv=replenishment_interval * df_stock["average_daily_demand"])
+# compute average std based on the replenishment interval using √Tσ
 df_stock = df_stock.assign(avg_std_daily_demand_repln_intv=np.sqrt(replenishment_interval * df_stock["std_average_daily_demand"]))
 
-# compute the base stock per product class 
+# compute the base stock per product class based on the μ+zσ rule 
 def compute_base_stock(index):
     product_class = df_stock.at[index, "product_class"]
     avg_daily_demand_repln_intv = df_stock.at[index, "avg_daily_demand_repln_intv"]
     avg_std_daily_demand_repln_intv = df_stock.at[index, "avg_std_daily_demand_repln_intv"]
     if product_class == "50%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (low_50_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (low_50_z_score * avg_std_daily_demand_repln_intv)
     elif product_class == "80%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (mid_30_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (mid_30_z_score * avg_std_daily_demand_repln_intv)
     elif product_class == "100%":
-        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * math.sqrt(avg_std_daily_demand_repln_intv))
+        df_stock.at[index, "base_stock"] = avg_daily_demand_repln_intv + (top_20_z_score * avg_std_daily_demand_repln_intv)
 
 [compute_base_stock(index) for index in df_stock.index]
 
