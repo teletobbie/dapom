@@ -513,8 +513,9 @@ for couple in product_couples:
 
 rel, val = multidict(product_couple_dict)
 # product couple represtation: (x1, x2) = 1
-# the sum of right side of the tuple and the left de side of the tuple must be equal
-knapsack_model.addConstrs((x.sum(i, "*") <= x.sum(i2, "*") for i, i2 in rel), name="product_couple")
+# the sum of vars right side of the tuple and the left de side of the tuple must be equal
+# https://www.gurobi.com/documentation/9.5/refman/py_tupledict_sum.html
+knapsack_model.addConstrs((x.sum(i, "*") == x.sum(i2, "*") for i, i2 in rel), name="product_couple")
 
 knapsack_model.optimize()
 
